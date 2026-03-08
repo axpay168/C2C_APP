@@ -151,8 +151,8 @@
 					</view>
 				</view>
 				<view style="padding: 33px 16px; text-align: center;">
-					<view class="btn" @click="reg" @tap="reg" style="cursor: pointer;">{{i18n.register.text[4]}}</view>
-					<text class="href" @click="dumprun('/pages/common/register')" @tap="dumprun('/pages/common/register')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
+					<view class="btn" @tap="reg" :class="{ 'btn-disabled': isSubmitting }" style="cursor: pointer; opacity: isSubmitting ? 0.6 : 1;">{{isSubmitting ? '注册中...' : i18n.register.text[4]}}</view>
+					<text class="href" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
 				</view>
 				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
 					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
@@ -178,6 +178,8 @@
 				hasSend:false,
 				seconds:120,
 				secondsInterval:null,
+				// 是否正在提交
+				isSubmitting: false,
 			};
 		},
 		onLoad(options) {
@@ -208,33 +210,106 @@
 				}
 			},
 			reg(){
+				// 防止重复提交
+				if (this.isSubmitting) {
+					return false;
+				}
+				
 				let {regtype,usestring,code,invitecode,password,re_password,i18n,area_code} = this
+				
+				// 验证邮箱/手机号
+				if(!usestring || usestring.trim() === ''){
+					this.$utils.showToast(regtype == 1 ? '请输入邮箱' : '请输入手机号')
+					return false
+				}
+				
+				// 验证邮箱格式
+				if(regtype == 1){
+					if(!this.$u.test.email(usestring)){
+						this.$utils.showToast('请输入正确的邮箱格式')
+						return false
+					}
+				} else {
+					// 验证手机号格式（简单验证）
+					if(!this.$u.test.number(usestring) || usestring.length < 6){
+						this.$utils.showToast('请输入正确的手机号')
+						return false
+					}
+				}
+				
 				//判断密码
-				if(password.length < 6){
+				if(!password || password.length < 6){
 					this.$utils.showToast('密码不能低于6位')
 					return false
 				}
+				
 				//判断两次密码是否一致
 				if(password != re_password){
-					this.$utils.showToast(this.i18n.register.placeholder[5])
+					this.$utils.showToast(this.i18n.register.placeholder[5] || '两次密码不一致')
 					return false
 				}
+				
+				// 验证邀请码（如果后端要求必填，这里可以取消注释）
+				// if(!invitecode || invitecode.trim() === ''){
+				// 	this.$utils.showToast('请输入邀请码')
+				// 	return false
+				// }
+				
+				// 设置提交状态
+				this.isSubmitting = true;
+				
+				// 显示加载提示
+				uni.showLoading({
+					title: '注册中...',
+					mask: true
+				});
+				
+				// 处理手机号格式
+				let finalUsestring = usestring;
 				if(this.regtype == 2){
-					usestring = area_code+''+usestring
+					finalUsestring = area_code + '' + usestring
 				}
+				
+				// 调用注册API
 				this.$u.api.index.register(
-					usestring,
+					finalUsestring,
 					password,
-					invitecode,
-					code
+					invitecode || '',
+					code || ''
 				).then(res=>{
-					this.$utils.showToast(res.msg)
+					// 隐藏加载提示
+					uni.hideLoading();
+					this.isSubmitting = false;
+					
+					if(res && res.msg){
+						this.$utils.showToast(res.msg)
+					} else {
+						this.$utils.showToast('注册成功')
+					}
+					
 					// 跳转至登录页面
 					setTimeout(()=>{
 						uni.redirectTo({
 							url:'/pages/common/login'
 						})
-					},300)
+					},1500)
+				}).catch(err => {
+					// 隐藏加载提示
+					uni.hideLoading();
+					this.isSubmitting = false;
+					
+					// 错误处理
+					let errorMsg = '注册失败，请稍后重试';
+					if(err && err.msg){
+						errorMsg = err.msg;
+					} else if(err && err.message){
+						errorMsg = err.message;
+					} else if(typeof err === 'string'){
+						errorMsg = err;
+					}
+					
+					console.error('注册失败:', err);
+					this.$utils.showToast(errorMsg);
 				})
 			},
 			//发送验证码

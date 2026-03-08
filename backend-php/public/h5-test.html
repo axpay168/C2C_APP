@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H5 功能測試</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-section">
+        <h1>H5 前端功能測試</h1>
+        <p>此頁面用於測試 H5 前端功能是否正常</p>
+    </div>
+
+    <div class="test-section">
+        <h2>1. H5 頁面加載測試</h2>
+        <div class="test-item">
+            <button onclick="testH5Load()">測試 H5 頁面加載</button>
+            <div id="h5-load-result" class="result"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. JavaScript 文件檢查</h2>
+        <div class="test-item">
+            <button onclick="testJSFiles()">檢查 JS 文件</button>
+            <div id="js-files-result" class="result"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. API 連接測試</h2>
+        <div class="test-item">
+            <button onclick="testAPIConnection()">測試 API 連接</button>
+            <div id="api-result" class="result"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. 登入功能測試</h2>
+        <div class="test-item">
+            <input type="text" id="test-account" placeholder="測試帳號" style="padding: 8px; margin: 5px; width: 200px;">
+            <input type="password" id="test-password" placeholder="測試密碼" style="padding: 8px; margin: 5px; width: 200px;">
+            <button onclick="testLogin()">測試登入 API</button>
+            <div id="login-result" class="result"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. H5 頁面預覽</h2>
+        <iframe id="h5-preview" src="/h5/"></iframe>
+    </div>
+
+    <script>
+        const baseUrl = window.location.origin;
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = 'result ' + type;
+            element.textContent = message;
+        }
+
+        async function testH5Load() {
+            showResult('h5-load-result', '測試中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/h5/');
+                const text = await response.text();
+                const hasContent = text.length > 100;
+                const hasApp = text.includes('<div id="app">');
+                const hasScripts = text.includes('<script');
+                
+                let result = `狀態碼: ${response.status}\n`;
+                result += `內容長度: ${text.length} 字符\n`;
+                result += `包含 #app: ${hasApp ? '✓' : '✗'}\n`;
+                result += `包含 script 標籤: ${hasScripts ? '✓' : '✗'}\n`;
+                result += `狀態: ${hasContent && hasApp ? '✓ H5 頁面正常' : '✗ H5 頁面可能有問題'}\n`;
+                
+                // 檢查是否有新的編譯文件
+                const hasNewJS = text.match(/index\.[0-9a-f]+\.js/g);
+                if (hasNewJS) {
+                    result += `\n發現 JS 文件: ${hasNewJS[0]}\n`;
+                }
+                
+                showResult('h5-load-result', result, hasContent && hasApp ? 'success' : 'error');
+            } catch (error) {
+                showResult('h5-load-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testJSFiles() {
+            showResult('js-files-result', '檢查中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/h5/');
+                const html = await response.text();
+                
+                // 提取 JS 文件
+                const jsMatches = html.match(/<script[^>]+src="([^"]+\.js)"/g) || [];
+                const jsFiles = jsMatches.map(m => {
+                    const match = m.match(/src="([^"]+)"/);
+                    return match ? match[1] : '';
+                }).filter(f => f);
+                
+                let result = `找到 ${jsFiles.length} 個 JS 文件:\n\n`;
+                for (const file of jsFiles) {
+                    try {
+                        const fileResponse = await fetch(baseUrl + file);
+                        result += `${fileResponse.ok ? '✓' : '✗'} ${file} (${fileResponse.status})\n`;
+                    } catch (e) {
+                        result += `✗ ${file} (無法訪問)\n`;
+                    }
+                }
+                
+                // 檢查登入相關文件
+                const hasLoginJS = jsFiles.some(f => f.includes('login') || f.includes('common'));
+                result += `\n包含登入相關 JS: ${hasLoginJS ? '✓' : '✗'}\n`;
+                
+                showResult('js-files-result', result, 'info');
+            } catch (error) {
+                showResult('js-files-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testAPIConnection() {
+            showResult('api-result', '測試中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/index.php/api/index/index');
+                const text = await response.text();
+                
+                let result = `API 狀態碼: ${response.status}\n`;
+                result += `響應類型: ${response.headers.get('content-type')}\n`;
+                result += `響應長度: ${text.length} 字符\n`;
+                
+                try {
+                    const json = JSON.parse(text);
+                    result += `\n響應內容 (JSON):\n${JSON.stringify(json, null, 2).substring(0, 500)}\n`;
+                    result += `\n狀態: ${response.ok ? '✓ API 連接正常' : '✗ API 返回錯誤'}\n`;
+                } catch (e) {
+                    result += `\n響應內容 (文本):\n${text.substring(0, 500)}\n`;
+                }
+                
+                showResult('api-result', result, response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResult('api-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testLogin() {
+            const account = document.getElementById('test-account').value || 'test';
+            const password = document.getElementById('test-password').value || 'test';
+            
+            showResult('login-result', '測試中...', 'info');
+            try {
+                const formData = new URLSearchParams();
+                formData.append('account', account);
+                formData.append('password', password);
+                formData.append('lang', 'eng');
+
+                const response = await fetch(baseUrl + '/index.php/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                });
+                
+                const text = await response.text();
+                let result = `狀態碼: ${response.status}\n`;
+                
+                try {
+                    const json = JSON.parse(text);
+                    result += `\n響應內容:\n${JSON.stringify(json, null, 2)}\n`;
+                    
+                    if (json.code === 1 && json.data && json.data.userinfo) {
+                        result += `\n狀態: ✓ 登入成功\n`;
+                        result += `Token: ${json.data.userinfo.token ? json.data.userinfo.token.substring(0, 20) + '...' : '無'}\n`;
+                    } else {
+                        result += `\n狀態: ✗ 登入失敗\n`;
+                        result += `錯誤信息: ${json.msg || '未知錯誤'}\n`;
+                    }
+                } catch (e) {
+                    result += `\n響應內容 (非 JSON):\n${text.substring(0, 500)}\n`;
+                }
+                
+                showResult('login-result', result, response.ok ? 'info' : 'error');
+            } catch (error) {
+                showResult('login-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 頁面加載時自動測試
+        window.onload = function() {
+            testH5Load();
+            setTimeout(() => {
+                testJSFiles();
+                testAPIConnection();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
