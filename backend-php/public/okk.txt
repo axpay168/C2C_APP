@@ -1,0 +1,1 @@
+{"code":"0","msg":"","data":[{"instType":"SWAP","instId":"BTC-USD-SWAP","last":"67659.2","lastSz":"1","askPx":"67657.3","askSz":"573","bidPx":"67657.2","bidSz":"577","open24h":"63056","high24h":"68266.8","low24h":"60788","volCcy24h":"47116.655","vol24h":"30252358","ts":"1710990347711","sodUtc0":"67864","sodUtc8":"63604"}]}

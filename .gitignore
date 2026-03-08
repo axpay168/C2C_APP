@@ -1,0 +1,36 @@
+# ===== 依賴與構建 =====
+node_modules/
+frontend-uniapp/node_modules/
+backend-php/vendor/
+backend-php/.composer-cache/
+
+# ===== 運行時與快取 =====
+backend-php/runtime/
+backend-php/application/runtime/
+*.log
+*.cache
+
+# ===== 上傳文件（保留 .gitkeep） =====
+backend-php/public/uploads/*
+!backend-php/public/uploads/.gitkeep
+backend-php/public/assets/addons/*
+!backend-php/public/assets/addons/.gitkeep
+
+# ===== 編譯輸出 =====
+frontend-uniapp/unpackage/
+frontend-uniapp/dist/
+# frontend-uniapp/static-h5/  # 若不想提交預編譯 H5 可取消註釋
+
+# ===== 環境與敏感 =====
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ===== 系統與 IDE =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

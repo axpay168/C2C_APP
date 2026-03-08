@@ -1,0 +1,175 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label for="c-pid" class="control-label col-xs-12 col-sm-2">上级归属:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-pid" data-rule="required" class="form-control" name="row[pid]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-username" class="control-label col-xs-12 col-sm-2">{:__('用户名')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-username" data-rule="required" class="form-control" name="row[username]" type="text" value="">
+        </div>
+    </div>
+    
+    <!--    <div class="form-group">-->
+    <!--    <label for="c-buy_num" class="control-label col-xs-12 col-sm-2">{:__('交易次数')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-buy_num" data-rule="required" class="form-control" name="row[buy_num]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label for="c-nickname" class="control-label col-xs-12 col-sm-2">{:__('标识')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-nickname" data-rule="required" class="form-control" name="row[nickname]" type="text" value="">
+        </div>
+    </div>
+    <!--<div class="form-group">-->
+    <!--    <label for="c-trfals" class="control-label col-xs-12 col-sm-2">是否假人:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-trfals" data-rule="required" class="form-control" name="row[trfals]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-zuidia" class="control-label col-xs-12 col-sm-2">最低出售金额:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-zuidia" data-rule="required" class="form-control" name="row[zuidia]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-nickname" class="control-label col-xs-12 col-sm-2">提现状态:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-nickname" data-rule="required" class="form-control" name="row[isti]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-weigui" class="control-label col-xs-12 col-sm-2">违规金额:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-weigui" data-rule="required" class="form-control" name="row[weigui]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-jutishi" class="control-label col-xs-12 col-sm-2">不能提现提示:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-jutishi" data-rule="required" class="form-control" name="row[jutishi]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-baobl" class="control-label col-xs-12 col-sm-2">保证金比例:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-baobl" data-rule="required" class="form-control" name="row[baobl]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-rebaojin" class="control-label col-xs-12 col-sm-2">已缴保证金数量:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-rebaojin" data-rule="required" class="form-control" name="row[rebaojin]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label for="c-password" class="control-label col-xs-12 col-sm-2">{:__('密码')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-password" data-rule="password" class="form-control" name="row[password]" type="password" value="" placeholder="{:__('Leave password blank if dont want to change')}" autocomplete="new-password" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-email" class="control-label col-xs-12 col-sm-2">{:__('邮箱')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-email" data-rule="" class="form-control" name="row[email]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-mobile" class="control-label col-xs-12 col-sm-2">{:__('手机号')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-mobile" data-rule="" class="form-control" name="row[mobile]" type="text" value="">
+        </div>
+    </div>
+    <!--<div class="form-group">-->
+    <!--    <label for="c-avatar" class="control-label col-xs-12 col-sm-2">{:__('Avatar')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-8">-->
+    <!--        <div class="input-group">-->
+    <!--            <input id="c-avatar" data-rule="" class="form-control" size="50" name="row[avatar]" type="text" value="">-->
+    <!--            <div class="input-group-addon no-border no-padding">-->
+    <!--                <span><button type="button" id="faupload-avatar" class="btn btn-danger faupload" data-input-id="c-avatar" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-avatar"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>-->
+    <!--                <span><button type="button" id="fachoose-avatar" class="btn btn-primary fachoose" data-input-id="c-avatar" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>-->
+    <!--            </div>-->
+    <!--            <span class="msg-box n-right" for="c-avatar"></span>-->
+    <!--        </div>-->
+    <!--        <ul class="row list-inline faupload-preview" id="p-avatar"></ul>-->
+    <!--    </div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label for="c-level" class="control-label col-xs-12 col-sm-2">{:__('级别')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-level" data-rule="required" class="form-control" name="row[level]" type="number" value="">
+        </div>
+    </div>
+    <!--<div class="form-group">-->
+    <!--    <label for="c-gender" class="control-label col-xs-12 col-sm-2">{:__('Gender')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-8">-->
+    <!--        {:build_radios('row[gender]', ['1'=>__('Male'), '0'=>__('Female')], 1)}-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-birthday" class="control-label col-xs-12 col-sm-2">{:__('Birthday')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-birthday" data-rule="" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[birthday]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-bio" class="control-label col-xs-12 col-sm-2">{:__('Bio')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-8">-->
+    <!--        <input id="c-bio" data-rule="" class="form-control" name="row[bio]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-money" class="control-label col-xs-12 col-sm-2">{:__('Money')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-money" data-rule="required" class="form-control" name="row[money]" type="number" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-money" class="control-label col-xs-12 col-sm-2">欧元余额:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-balance_revered" data-rule="required" class="form-control" name="row[balance_revered]" type="number" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-score" class="control-label col-xs-12 col-sm-2">{:__('Score')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-score" data-rule="required" class="form-control" name="row[score]" type="number" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-successions" class="control-label col-xs-12 col-sm-2">{:__('Successions')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-successions" data-rule="required" class="form-control" name="row[successions]" type="number" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-maxsuccessions" class="control-label col-xs-12 col-sm-2">{:__('Maxsuccessions')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-maxsuccessions" data-rule="required" class="form-control" name="row[maxsuccessions]" type="number" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--    <label for="c-prevtime" class="control-label col-xs-12 col-sm-2">{:__('Prevtime')}:</label>-->
+    <!--    <div class="col-xs-12 col-sm-4">-->
+    <!--        <input id="c-prevtime" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[prevtime]" type="text" value="">-->
+    <!--    </div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label for="content" class="control-label col-xs-12 col-sm-2">{:__('状态')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[status]', ['normal'=>__('正常'), 'hidden'=>__('隐藏')], 1)}
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

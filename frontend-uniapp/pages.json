@@ -1,0 +1,230 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/hall",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/busauth",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/buy",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/sell",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/service",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/financial",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/index/serviceCenter",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/common/login",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/common/register",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/common/resetpwd",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/common/webView",
+		"style": {
+			"navigationStyle": "default",
+			"navigationBarBackgroundColor": "#218DC7",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/common/area",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/common/article",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/share",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/teamReport",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/userTaskRecord",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/withdrawalCenter",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},
+	{
+		"path": "pages/setting/withdrawUsdt",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},
+	{
+		"path": "pages/setting/mufind",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	},{
+		"path": "pages/setting/myTask",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/user",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/info",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/mixrecharge",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/rechargeList",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/withdraw",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/withdrawlist",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/wallet",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/bindAccount",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/bindinfo",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}, {
+		"path": "pages/setting/fundRecord",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+	}],
+	"globalStyle": {
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#000",
+		"backgroundColor": "#000"
+	},
+	"tabBar": {
+		"color": "#bbbbbb",
+		"selectedColor": "#0076fa",
+		"backgroundColor": "#000",
+		"borderStyle": "black",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/image/news/index.png",
+			"selectedIconPath": "static/image/news/index_select.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/index/hall",
+			"iconPath": "static/image/news/vip.png",
+			"selectedIconPath": "static/image/news/vip_select.png",
+			"text": "大厅"
+		}, {
+			"pagePath": "pages/setting/myTask",
+			"iconPath": "static/image/news/task.png",
+			"selectedIconPath": "static/image/news/task_select.png",
+			"text": "订单"
+		}, {
+			"pagePath": "pages/setting/user",
+			"iconPath": "static/image/news/user.png",
+			"selectedIconPath": "static/image/news/user_select.png",
+			"text": "我的"
+		}]
+	}
+}

@@ -1,0 +1,64 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Username')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-username" data-rule="required" class="form-control" name="row[username]" type="text" value="{$row.username|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Danjia')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-danjia" data-rule="required" class="form-control" name="row[danjia]" type="text" value="{$row.danjia|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shuliang')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-shuliang" data-rule="required" class="form-control" name="row[shuliang]" type="text" value="{$row.shuliang|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shengyu')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-shengyu" data-rule="required" class="form-control" name="row[shengyu]" type="text" value="{$row.shengyu|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mine')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mine" data-rule="required" class="form-control" name="row[mine]" type="text" value="{$row.mine|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Maxe')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-maxe" data-rule="required" class="form-control" name="row[maxe]" type="text" value="{$row.maxe|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Xianren')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-xianren" data-rule="required" class="form-control" name="row[xianren]" type="text" value="{$row.xianren|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Changes')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-changes" data-rule="required" class="form-control" name="row[changes]" type="text" value="{$row.changes|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Xtype')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-xtype" data-rule="required" class="form-control" name="row[xtype]" type="text" value="{$row.xtype|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

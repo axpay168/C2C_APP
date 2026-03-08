@@ -1,0 +1,188 @@
+.record .header {
+	position: relative;
+	padding: 32rpx 40rpx;
+	text-align: center
+}
+
+.record .header .back {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 40rpx;
+	margin: auto;
+	width: 32rpx;
+	height: 32rpx;
+}
+
+.record .exchange_container {
+	margin-top: 40rpx;
+	padding: 0 32rpx
+}
+
+.record .exchange_container .base_content {
+	padding: 24rpx 32rpx 46rpx;
+	background: #fff;
+	box-shadow: 0 4px 40px 1px rgba(0, 0, 0, .03);
+	border-radius: 10px;
+	border: 1px solid #eeeef0
+}
+
+.record .exchange_container .base_content .base_title {
+	position: relative;
+	font-size: 28rpx;
+	color: #353f52;
+	font-weight: 500
+}
+
+.record .exchange_container .base_content .base_title .left_line {
+	position: absolute;
+	top: 0;
+	left: -32rpx;
+	width: 8rpx;
+	height: 40rpx;
+	background: linear-gradient(1turn, rgba(90, 71, 217, .09), #1652f0);
+	border-radius: 4rpx
+}
+
+.record .exchange_container .base_content .base_value {
+	margin-top: 44rpx;
+	display: flex;
+	justify-content: space-between;
+	text-align: center
+}
+
+.record .exchange_container .base_content .base_value .value_item {
+	width: 50%
+}
+
+.record .exchange_container .base_content .base_value .value_item .title {
+	margin-bottom: 16rpx;
+	font-size: 28rpx;
+	color: #353f52;
+	font-weight: 500
+}
+
+.record .exchange_container .base_content .base_value .value_item .value {
+	color: #5b616e
+}
+
+.record .exchange_container .exchange_content {
+	margin-top: 40rpx
+}
+
+.record .exchange_container .exchange_content .title {
+	color: #353f52;
+	font-size: 32rpx
+}
+
+.record .exchange_container .exchange_content .input_content {
+	margin-top: 24rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center
+}
+
+.record .exchange_container .exchange_content .input_content input {
+	width: 300rpx;
+	height: 94rpx;
+	padding: 0 24rpx;
+	box-sizing: border-box;
+	background: #f3f4f6;
+	border-radius: 10rpx;
+	color: #5f6775;
+	font-family: NunitoSemiBold
+}
+
+.record .exchange_container .exchange_content .input_content .icon_exchange {
+	margin: 0 24rpx;
+	width: 40rpx;
+	height: 40rpx
+}
+
+.record .exchange_container .submit_content {
+	margin-top: 56rpx;
+	display: flex;
+	justify-content: center
+}
+
+.record .exchange_container .submit_content .submit_btn {
+	width: 366rpx;
+	height: 94rpx;
+	line-height: 94rpx;
+	text-align: center;
+	background: #1652f0;
+	border-radius: 14px;
+	color: #fff;
+	font-size: 36rpx;
+	font-weight: 500
+}
+
+.record .list_container {
+	margin-top: 56rpx;
+	padding: 0 32rpx
+}
+
+.record .list_container .list_title {
+	margin-bottom: 24rpx;
+	color: #353f52;
+	font-size: 32rpx;
+	font-weight: 600
+}
+
+.record .list_container .list_item {
+	padding: 32rpx;
+	margin-bottom: 40rpx;
+	box-shadow: 0 4px 40px 1px rgba(0, 0, 0, .03);
+	border-radius: 10rpx;
+	border: 1px solid #eeeef0;
+	display: flex;
+	justify-content: space-between
+}
+
+.record .list_container .list_item .info .title {
+	color: #434343;
+	font-size: 32rpx
+}
+
+.record .list_container .list_item .info .subtitle {
+	margin-top: 26rpx;
+	color: #5b616e
+}
+
+.record .list_container .list_item .value {
+	text-align: right
+}
+
+.record .list_container .list_item .value .amount {
+	color: #434343;
+	font-size: 32rpx
+}
+
+.record .list_container .list_item .value .status {
+	margin-top: 26rpx;
+	color: #5b616e;
+	display: flex;
+	justify-content: flex-end;
+	align-content: center;
+	align-items: center
+}
+
+.record .list_container .list_item .value .status image {
+	margin-right: 8rpx;
+	width: 32rpx;
+	height: 32rpx;
+}
+
+.record .list_container .no_data_content {
+	margin-top: 40rpx;
+	padding-bottom: 40rpx;
+	text-align: center;
+	color: #aaa;
+	font-size: 40rpx
+}
+
+.record .list_container .no_data_content .img_no_data {
+	margin-bottom: 56rpx;
+	width: 370rpx;
+	height: auto
+}

@@ -1,0 +1,40 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Level')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-level" data-rule="required" class="form-control" name="row[level]" type="text" value="{$row.level|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Cishu')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cishu" data-rule="required" class="form-control" name="row[cishu]" type="text" value="{$row.cishu|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Minx')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-minx" data-rule="required" class="form-control" name="row[minx]" type="text" value="{$row.minx|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Maxs')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-maxs" data-rule="required" class="form-control" name="row[maxs]" type="text" value="{$row.maxs|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">生效用户组:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-zubie" data-rule="required" class="form-control" name="row[zubie]" type="text" value="{$row.zubie|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

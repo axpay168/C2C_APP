@@ -1,0 +1,244 @@
+#app {
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #000;
+	font-size: .28rem
+}
+
+.cf_loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	background-color: rgba(0, 0, 0, .6)
+}
+
+.cf_loading .cf_loading_content {
+	width: 2.8rem;
+	height: 1.4rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: #131f30;
+	border-radius: 2px;
+	text-align: center
+}
+
+.cf_loading .cf_loading_content .cf_loading_icon {
+	margin-top: .38rem
+}
+
+@font-face {
+	font-family: DINMittelschrift;
+	src: url(../fonts/DINMittelschrift.e8fd3a92.ttf)
+}
+
+@font-face {
+	font-family: InterRegular;
+	src: url(../fonts/Inter-Regular.515cae74.ttf)
+}
+
+@font-face {
+	font-family: InterMedium;
+	src: url(../fonts/Inter-Medium.5ff1f2a9.ttf)
+}
+
+@font-face {
+	font-family: InterSemiBold;
+	src: url(../fonts/Inter-SemiBold.ec60b23f.ttf)
+}
+
+@font-face {
+	font-family: NunitoBold;
+	src: url(../fonts/Nunito-Bold.c0844c99.ttf)
+}
+
+@font-face {
+	font-family: NunitoSemiBold;
+	src: url(../fonts/Nunito-SemiBold.876701bc.ttf)
+}
+
+@font-face {
+	font-family: NunitoRegular;
+	src: url(../fonts/Nunito-Regular.d8de52e6.ttf)
+}
+
+* {
+	margin: 0;
+	padding: 0
+}
+
+input {
+	border: none;
+	outline: none
+}
+
+.ff_InterRegular {
+	font-family: InterRegular
+}
+
+.ff_InterMedium {
+	font-family: InterMedium
+}
+
+.ff_InterSemiBold {
+	font-family: InterSemiBold
+}
+
+.ff_NunitoBold {
+	font-family: NunitoBold
+}
+
+.ff_NunitoSemiBold {
+	font-family: NunitoSemiBold
+}
+
+.ff_NunitoRegular {
+	font-family: NunitoRegular
+}
+
+.fc-ffffff {
+	color: #fff
+}
+
+.fc-5F6775 {
+	color: #5f6775
+}
+
+.fc-5B616E {
+	color: #5b616e
+}
+
+.fc-434343 {
+	color: #434343
+}
+
+.fc-353F52 {
+	color: #353f52
+}
+
+.fc-2F3848 {
+	color: #2f3848
+}
+
+.fc-A5C639 {
+	color: #a5c639
+}
+
+.fc-8CC351 {
+	color: #8cc351
+}
+
+.fc-13B26F {
+	color: #13b26f
+}
+
+.fc-1652F0 {
+	color: #1652f0
+}
+
+.fc-0052FF {
+	color: #0052ff
+}
+
+.fc-F68D29 {
+	color: #f68d29
+}
+
+.fc-CF202F {
+	color: #cf202f
+}
+
+.fc-050F1A {
+	color: #050f1a
+}
+
+.fc-0A0B0D {
+	color: #0a0b0d
+}
+
+.fs-24 {
+	font-size: .24rem
+}
+
+.fs-26 {
+	font-size: .26rem
+}
+
+.fs-28 {
+	font-size: .28rem
+}
+
+.fs-30 {
+	font-size: .3rem
+}
+
+.fs-32 {
+	font-size: .32rem
+}
+
+.fs-36 {
+	font-size: .36rem
+}
+
+.fs-40 {
+	font-size: .4rem
+}
+
+.fs-44 {
+	font-size: .44rem
+}
+
+.fs-48 {
+	font-size: .48rem
+}
+
+.fs-52 {
+	font-size: .52rem
+}
+
+.fs-60 {
+	font-size: .6rem
+}
+
+.mt-4 {
+	margin-top: .04rem
+}
+
+.mt-6 {
+	margin-top: .06rem
+}
+
+.mt-16 {
+	margin-top: .16rem
+}
+
+.mt-24 {
+	margin-top: .24rem
+}
+
+.ml-12 {
+	margin-left: .12rem
+}
+
+.ml-16 {
+	margin-left: .16rem
+}
+
+.mr-12 {
+	margin-right: .12rem
+}
+
+.mr-16 {
+	margin-right: .16rem
+}
+
+.mr-24 {
+	margin-right: .24rem
+}

@@ -1,0 +1,145 @@
+.arbitrage_record {
+	padding-bottom: .6rem
+}
+
+.arbitrage_record .header {
+	position: relative;
+	padding: .27rem .44rem;
+	text-align: center
+}
+
+.arbitrage_record .header .back {
+	position: absolute;
+	top: 0;
+	left: .44rem;
+	bottom: 0;
+	margin: auto;
+	width: .4rem
+}
+
+.arbitrage_record .switch_container {
+	margin-top: .32rem
+}
+
+.arbitrage_record .switch_container .switch_content {
+	margin: 0 auto;
+	padding: .08rem;
+	width: 4.44rem;
+	background: #f5f6f8;
+	border-radius: .2rem;
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_record .switch_container .switch_content .switch_item {
+	width: 2.14rem;
+	height: .72rem;
+	line-height: .72rem;
+	text-align: center;
+	font-size: .26rem;
+	color: #353f52;
+	font-weight: 600
+}
+
+.arbitrage_record .switch_container .switch_content .switch_item.active {
+	background: #fff;
+	border-radius: .2rem
+}
+
+.arbitrage_record .record_list {
+	padding: 0 .36rem
+}
+
+.arbitrage_record .record_list .record_item {
+	margin-top: .56rem;
+	background: #fff;
+	box-shadow: .06rem .12rem .2rem 0 rgba(0, 0, 0, .05);
+	border-radius: .3rem
+}
+
+.arbitrage_record .record_list .record_item .pro_info {
+	padding: 0 .32rem;
+	height: 1.14rem;
+	border-bottom: 1px solid hsla(0, 0%, 84.7%, .5);
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_record .record_list .record_item .pro_info .pro_cycle {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	font-size: .36rem;
+	color: #353f52
+}
+
+.arbitrage_record .record_list .record_item .pro_info .pro_cycle .icon_save {
+	margin-right: .2rem;
+	width: .48rem
+}
+
+.arbitrage_record .record_list .record_item .record_info {
+	padding-bottom: .56rem
+}
+
+.arbitrage_record .record_list .record_item .record_info .section {
+	margin-top: .44rem;
+	display: flex
+}
+
+.arbitrage_record .record_list .record_item .record_info .section .section_item {
+	width: 50%;
+	text-align: center
+}
+
+.arbitrage_record .record_list .record_item .record_info .section .section_item .item_name {
+	color: #353f52;
+	font-family: NunitoSemiBold
+}
+
+.arbitrage_record .record_list .record_item .record_info .section .section_item .item_value {
+	margin-top: .16rem;
+	color: #5b616e;
+	font-family: InterRegular
+}
+
+.arbitrage_record .record_list .record_item .order_info {
+	padding: 0 .4rem;
+	height: 1.04rem;
+	background: #f5f6f8;
+	box-shadow: 6px 12px 20px 0 rgba(0, 0, 0, .05);
+	border-radius: 0 0 .3rem .3rem;
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_record .record_list .record_item .order_info .order_status {
+	display: flex;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_record .record_list .record_item .order_info .order_status .icon_status {
+	margin-right: .1rem;
+	width: .32rem
+}
+
+.arbitrage_record .no_data_content {
+	margin-top: .4rem;
+	padding-bottom: .4rem;
+	text-align: center;
+	color: #aaa;
+	font-size: .4rem
+}
+
+.arbitrage_record .no_data_content .img_no_data {
+	margin-bottom: .56rem;
+	width: 3.7rem;
+	height: auto
+}
