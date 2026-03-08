@@ -65,10 +65,10 @@
 					</view>
 				</view>
 				<view style="padding: 10px 0px; text-align: center;">
-					<p class="btn" @click="login">{{i18n.login.label[1]}}</p>
+					<view class="btn" @click="login" @tap="login" style="cursor: pointer;">{{i18n.login.label[1]}}</view>
 					<view>
 						{{i18n.login.default[0]}} | <text class="href"
-							@click="dumprun('/pages/common/register')">{{i18n.login.default[1]}}</text>
+							@click="dumprun('/pages/common/register')" @tap="dumprun('/pages/common/register')" style="cursor: pointer;">{{i18n.login.default[1]}}</text>
 					</view>
 				</view>
 				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
@@ -191,7 +191,7 @@
 				const lang = uni.getStorageSync('lang') || 'eng'
 				const apiBase = (typeof window !== 'undefined' && window.location && window.location.origin)
 					? window.location.origin + '/index.php/api'
-					: 'http://149.104.29.96/index.php/api'
+					: 'https://mxtrx.top/index.php/api'
 				const url = apiBase + '/user/login'
 				uni.showLoading({ title: '登入中...', mask: true })
 				const postData = 'account=' + encodeURIComponent(account) + '&password=' + encodeURIComponent(password) + '&lang=' + encodeURIComponent(lang)

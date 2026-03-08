@@ -537,6 +537,11 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             list($type, $param) = explode(':', $type, 2);
         }
         switch ($type) {
+            case 'string':
+            case 'bigint':
+                $value = (string) $value;
+                break;
+            case 'int':
             case 'integer':
                 $value = (int) $value;
                 break;
@@ -547,6 +552,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
                     $value = (float) number_format($value, $param, '.', '');
                 }
                 break;
+            case 'bool':
             case 'boolean':
                 $value = (bool) $value;
                 break;
@@ -670,6 +676,11 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             list($type, $param) = explode(':', $type, 2);
         }
         switch ($type) {
+            case 'string':
+            case 'bigint':
+                $value = (string) $value;
+                break;
+            case 'int':
             case 'integer':
                 $value = (int) $value;
                 break;
@@ -680,6 +691,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
                     $value = (float) number_format($value, $param, '.', '');
                 }
                 break;
+            case 'bool':
             case 'boolean':
                 $value = (bool) $value;
                 break;
@@ -1267,10 +1279,18 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             $data = $this->data;
         } else {
             $data = array_udiff_assoc($this->data, $this->origin, function ($a, $b) {
+                if (is_numeric($a) && is_numeric($b)) {
+                    if (strcmp($a, $b) !== 0) {
+                        return 1;
+                    }
+                    if ($a == $b) {
+                        return 0;
+                    }
+                }
                 if ((empty($a) || empty($b)) && $a !== $b) {
                     return 1;
                 }
-                return is_object($a) || $a != $b ? 1 : 0;
+                return is_object($a) || $a !== $b ? 1 : 0;
             });
         }
 
@@ -1309,10 +1329,10 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     }
 
     /**
-     * 字段值(延迟)增长
+     * 字段值(延迟)减少
      * @access public
      * @param string  $field    字段名
-     * @param integer $step     增长值
+     * @param integer $step     减少值
      * @param integer $lazyTime 延时时间(s)
      * @return integer|true
      * @throws Exception
@@ -2267,14 +2287,14 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         return $this->toJson();
     }
 
-    // JsonSerializable (PHP 8.1+ compatibility)
+    // JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
     }
 
-    // ArrayAccess (PHP 8.1+ compatibility)
+    // ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {

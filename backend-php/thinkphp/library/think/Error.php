@@ -65,11 +65,6 @@ class Error
      */
     public static function appError($errno, $errstr, $errfile = '', $errline = 0)
     {
-        // PHP 8.1+ 兼容：不将 Deprecation 警告转为异常，仅记录
-        if (in_array($errno, [E_DEPRECATED, E_USER_DEPRECATED], true)) {
-            return;
-        }
-
         $exception = new ErrorException($errno, $errstr, $errfile, $errline);
 
         // 符合异常处理的则将错误信息托管至 think\exception\ErrorException

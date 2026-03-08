@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 功能測試</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .test-item h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .info {
+            color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API 功能測試工具</h1>
+        <p>此工具用於測試項目 API 功能是否正常</p>
+    </div>
+
+    <div class="container">
+        <div class="test-item">
+            <h3>1. 基礎 API 測試</h3>
+            <button onclick="testBasicAPI()">測試基礎 API</button>
+            <div id="basic-result" class="result"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>2. 用戶登入 API 測試</h3>
+            <input type="text" id="username" placeholder="用戶名" style="padding: 8px; margin: 5px;">
+            <input type="password" id="password" placeholder="密碼" style="padding: 8px; margin: 5px;">
+            <button onclick="testLoginAPI()">測試登入</button>
+            <div id="login-result" class="result"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>3. H5 前端檢查</h3>
+            <button onclick="testH5()">檢查 H5 前端</button>
+            <div id="h5-result" class="result"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>4. 後台入口檢查</h3>
+            <button onclick="testAdmin()">檢查後台入口</button>
+            <div id="admin-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const baseUrl = window.location.origin;
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = 'result ' + type;
+            element.textContent = message;
+        }
+
+        async function testBasicAPI() {
+            showResult('basic-result', '測試中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/index.php/api/index/index');
+                const text = await response.text();
+                showResult('basic-result', 
+                    `狀態碼: ${response.status}\n` +
+                    `狀態文本: ${response.statusText}\n` +
+                    `響應內容:\n${text.substring(0, 500)}`, 
+                    response.ok ? 'success' : 'error'
+                );
+            } catch (error) {
+                showResult('basic-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testLoginAPI() {
+            const username = document.getElementById('username').value || 'test';
+            const password = document.getElementById('password').value || 'test';
+            
+            showResult('login-result', '測試中...', 'info');
+            try {
+                const formData = new URLSearchParams();
+                formData.append('account', username);
+                formData.append('password', password);
+                formData.append('lang', 'eng');
+
+                const response = await fetch(baseUrl + '/index.php/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData
+                });
+                
+                const text = await response.text();
+                showResult('login-result', 
+                    `狀態碼: ${response.status}\n` +
+                    `響應內容:\n${text.substring(0, 500)}`, 
+                    response.ok ? 'success' : 'error'
+                );
+            } catch (error) {
+                showResult('login-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testH5() {
+            showResult('h5-result', '檢查中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/h5/');
+                const text = await response.text();
+                const hasContent = text.length > 100;
+                showResult('h5-result', 
+                    `狀態碼: ${response.status}\n` +
+                    `內容長度: ${text.length} 字符\n` +
+                    `狀態: ${hasContent ? '✓ H5 頁面可訪問' : '✗ H5 頁面可能為空'}\n` +
+                    `前 200 字符:\n${text.substring(0, 200)}`, 
+                    hasContent ? 'success' : 'error'
+                );
+            } catch (error) {
+                showResult('h5-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        async function testAdmin() {
+            showResult('admin-result', '檢查中...', 'info');
+            try {
+                const response = await fetch(baseUrl + '/buSRxMqJOo.php');
+                const text = await response.text();
+                const isLoginPage = text.includes('login') || text.includes('登入') || response.status === 200;
+                showResult('admin-result', 
+                    `狀態碼: ${response.status}\n` +
+                    `狀態: ${isLoginPage ? '✓ 後台入口可訪問' : '⚠ 可能需要檢查'}\n` +
+                    `前 200 字符:\n${text.substring(0, 200)}`, 
+                    isLoginPage ? 'success' : 'info'
+                );
+            } catch (error) {
+                showResult('admin-result', '錯誤: ' + error.message, 'error');
+            }
+        }
+
+        // 頁面加載時自動測試基礎 API
+        window.onload = function() {
+            testBasicAPI();
+        };
+    </script>
+</body>
+</html>

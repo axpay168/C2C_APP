@@ -62,7 +62,7 @@ class Query
      * @param Connection $connection 数据库对象实例
      * @param Model      $model      模型对象
      */
-    public function __construct(Connection $connection = null, $model = null)
+    public function __construct(?Connection $connection = null, $model = null)
     {
         $this->connection = $connection ?: Db::connect([], true);
         $this->prefix     = $this->connection->getConfig('prefix');
@@ -480,6 +480,7 @@ class Query
             $result = Cache::get($guid);
         }
         if (false === $result) {
+            $result = [];
             if (isset($this->options['field'])) {
                 unset($this->options['field']);
             }

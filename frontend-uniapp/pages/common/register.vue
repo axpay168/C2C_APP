@@ -151,8 +151,8 @@
 					</view>
 				</view>
 				<view style="padding: 33px 16px; text-align: center;">
-					<p class="btn" @click="reg">{{i18n.register.text[4]}}</p>
-					<text class="href" @click="dumprun('/pages/common/register')">{{i18n.register.label[2]}}</text>
+					<view class="btn" @click="reg" @tap="reg" style="cursor: pointer;">{{i18n.register.text[4]}}</view>
+					<text class="href" @click="dumprun('/pages/common/register')" @tap="dumprun('/pages/common/register')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
 				</view>
 				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
 					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
