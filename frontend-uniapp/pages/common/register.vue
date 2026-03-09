@@ -151,8 +151,15 @@
 					</view>
 				</view>
 				<view style="padding: 33px 16px; text-align: center;">
-					<view class="btn" @tap="reg" :class="{ 'btn-disabled': isSubmitting }" style="cursor: pointer; opacity: isSubmitting ? 0.6 : 1;">{{isSubmitting ? '注册中...' : i18n.register.text[4]}}</view>
-					<text class="href" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
+					<view 
+						class="btn" 
+						:class="{ 'btn-disabled': isSubmitting, 'btn-clicking': isClicking }"
+						@click="handleRegisterClick" 
+						@tap="handleRegisterClick"
+						style="cursor: pointer; opacity: isSubmitting ? 0.6 : 1; transition: all 0.2s;">
+						{{isSubmitting ? '注册中...' : i18n.register.text[4]}}
+					</view>
+					<text class="href" @click="dumprun('/pages/common/login')" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
 				</view>
 				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
 					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
@@ -180,6 +187,8 @@
 				secondsInterval:null,
 				// 是否正在提交
 				isSubmitting: false,
+				// 點擊動畫狀態
+				isClicking: false,
 			};
 		},
 		onLoad(options) {
@@ -209,51 +218,152 @@
 					});
 				}
 			},
+			handleRegisterClick(e) {
+				console.log('[REGISTER] 按鈕被點擊', e)
+				// 阻止事件冒泡
+				if (e && e.stopPropagation) {
+					e.stopPropagation()
+				}
+				// 添加點擊動畫效果
+				this.isClicking = true
+				setTimeout(() => {
+					this.isClicking = false
+				}, 200)
+				// 調用註冊方法
+				this.reg()
+			},
 			reg(){
+				console.log('[REGISTER] ========== 開始執行註冊邏輯 ==========')
+				console.log('[REGISTER] 當前狀態:', {
+					isSubmitting: this.isSubmitting,
+					regtype: this.regtype,
+					usestring: this.usestring,
+					password: this.password ? '***' : '(空)',
+					re_password: this.re_password ? '***' : '(空)'
+				})
+				
 				// 防止重复提交
 				if (this.isSubmitting) {
+					console.warn('[REGISTER] 正在提交中，忽略重複點擊')
 					return false;
 				}
 				
 				let {regtype,usestring,code,invitecode,password,re_password,i18n,area_code} = this
+				console.log('[REGISTER] 註冊類型:', regtype === 1 ? '郵箱' : '手機號', '帳號:', usestring)
 				
 				// 验证邮箱/手机号
 				if(!usestring || usestring.trim() === ''){
-					this.$utils.showToast(regtype == 1 ? '请输入邮箱' : '请输入手机号')
+					const errorMsg = regtype == 1 ? '请输入邮箱' : '请输入手机号'
+					console.warn('[REGISTER] ❌ 驗證失敗: 帳號為空')
+					console.log('[REGISTER] 準備顯示錯誤提示:', errorMsg)
+					if (this.$utils && this.$utils.showToast) {
+						this.$utils.showToast(errorMsg)
+					} else {
+						uni.showToast({
+							title: errorMsg,
+							icon: 'none'
+						})
+					}
 					return false
 				}
 				
 				// 验证邮箱格式
 				if(regtype == 1){
-					if(!this.$u.test.email(usestring)){
-						this.$utils.showToast('请输入正确的邮箱格式')
+					if(!this.$u || !this.$u.test || !this.$u.test.email){
+						console.error('[REGISTER] $u.test.email 不存在')
+						// 簡單的郵箱格式驗證
+						const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+						if(!emailRegex.test(usestring)){
+							console.warn('[REGISTER] ❌ 驗證失敗: 郵箱格式錯誤', usestring)
+							const errorMsg = '请输入正确的邮箱格式'
+							if (this.$utils && this.$utils.showToast) {
+								this.$utils.showToast(errorMsg)
+							} else {
+								uni.showToast({ title: errorMsg, icon: 'none' })
+							}
+							return false
+						}
+					} else if(!this.$u.test.email(usestring)){
+						console.warn('[REGISTER] ❌ 驗證失敗: 郵箱格式錯誤', usestring)
+						const errorMsg = '请输入正确的邮箱格式'
+						if (this.$utils && this.$utils.showToast) {
+							this.$utils.showToast(errorMsg)
+						} else {
+							uni.showToast({ title: errorMsg, icon: 'none' })
+						}
 						return false
 					}
+					console.log('[REGISTER] ✅ 郵箱格式驗證通過:', usestring)
 				} else {
 					// 验证手机号格式（简单验证）
-					if(!this.$u.test.number(usestring) || usestring.length < 6){
-						this.$utils.showToast('请输入正确的手机号')
+					if(!this.$u || !this.$u.test || !this.$u.test.number){
+						console.error('[REGISTER] $u.test.number 不存在')
+						// 簡單的手機號驗證
+						if(!/^\d+$/.test(usestring) || usestring.length < 6){
+							console.warn('[REGISTER] ❌ 驗證失敗: 手機號格式錯誤', usestring)
+							const errorMsg = '请输入正确的手机号'
+							if (this.$utils && this.$utils.showToast) {
+								this.$utils.showToast(errorMsg)
+							} else {
+								uni.showToast({ title: errorMsg, icon: 'none' })
+							}
+							return false
+						}
+					} else if(!this.$u.test.number(usestring) || usestring.length < 6){
+						console.warn('[REGISTER] ❌ 驗證失敗: 手機號格式錯誤', usestring)
+						const errorMsg = '请输入正确的手机号'
+						if (this.$utils && this.$utils.showToast) {
+							this.$utils.showToast(errorMsg)
+						} else {
+							uni.showToast({ title: errorMsg, icon: 'none' })
+						}
 						return false
 					}
+					console.log('[REGISTER] ✅ 手機號格式驗證通過:', usestring)
 				}
 				
 				//判断密码
 				if(!password || password.length < 6){
-					this.$utils.showToast('密码不能低于6位')
+					console.warn('[REGISTER] ❌ 驗證失敗: 密碼長度不足', password ? password.length : 0)
+					const errorMsg = '密码不能低于6位'
+					if (this.$utils && this.$utils.showToast) {
+						this.$utils.showToast(errorMsg)
+					} else {
+						uni.showToast({ title: errorMsg, icon: 'none' })
+					}
 					return false
 				}
+				console.log('[REGISTER] ✅ 密碼長度驗證通過')
 				
 				//判断两次密码是否一致
 				if(password != re_password){
-					this.$utils.showToast(this.i18n.register.placeholder[5] || '两次密码不一致')
+					console.warn('[REGISTER] ❌ 驗證失敗: 兩次密碼不一致')
+					const errorMsg = (this.i18n && this.i18n.register && this.i18n.register.placeholder && this.i18n.register.placeholder[5]) 
+						? this.i18n.register.placeholder[5] 
+						: '两次密码不一致'
+					if (this.$utils && this.$utils.showToast) {
+						this.$utils.showToast(errorMsg)
+					} else {
+						uni.showToast({ title: errorMsg, icon: 'none' })
+					}
 					return false
 				}
+				console.log('[REGISTER] ✅ 兩次密碼一致性驗證通過')
 				
-				// 验证邀请码（如果后端要求必填，这里可以取消注释）
-				// if(!invitecode || invitecode.trim() === ''){
-				// 	this.$utils.showToast('请输入邀请码')
-				// 	return false
-				// }
+				// 验证邀请码（後端要求必填）
+				if(!invitecode || invitecode.trim() === ''){
+					console.warn('[REGISTER] ❌ 驗證失敗: 邀請碼為空')
+					const errorMsg = (this.i18n && this.i18n.register && this.i18n.register.placeholder && this.i18n.register.placeholder[4]) 
+						? this.i18n.register.placeholder[4] 
+						: '请输入邀请码'
+					if (this.$utils && this.$utils.showToast) {
+						this.$utils.showToast(errorMsg)
+					} else {
+						uni.showToast({ title: errorMsg, icon: 'none' })
+					}
+					return false
+				}
+				console.log('[REGISTER] ✅ 邀請碼驗證通過')
 				
 				// 设置提交状态
 				this.isSubmitting = true;
@@ -271,29 +381,65 @@
 				}
 				
 				// 调用注册API
+				console.log('[REGISTER] 準備調用 API，參數:', {
+					username: finalUsestring,
+					password: '***',
+					invitation_code: invitecode || '(空)',
+					code: code || '(空)'
+				})
+				console.log('[REGISTER] 完整驗證通過，準備提交註冊')
+				
 				this.$u.api.index.register(
 					finalUsestring,
 					password,
 					invitecode || '',
 					code || ''
 				).then(res=>{
+					console.log('[REGISTER] API 響應:', res)
 					// 隐藏加载提示
 					uni.hideLoading();
 					this.isSubmitting = false;
 					
-					if(res && res.msg){
-						this.$utils.showToast(res.msg)
-					} else {
-						this.$utils.showToast('注册成功')
+					// 檢查響應數據
+					// 注意：HTTP 攔截器會在 code !== 1 時返回 false，所以這裡的 res 可能是 false
+					if(res === false){
+						// HTTP 攔截器已經處理了錯誤並顯示了錯誤訊息
+						console.warn('[REGISTER] 註冊失敗，HTTP 攔截器已處理錯誤')
+						return;
 					}
 					
-					// 跳转至登录页面
-					setTimeout(()=>{
-						uni.redirectTo({
-							url:'/pages/common/login'
-						})
-					},1500)
+					if(res && res.code === 1){
+						// 註冊成功
+						console.log('[REGISTER] 註冊成功')
+						const successMsg = res.msg || (this.i18n && this.i18n.register && this.i18n.register.text && this.i18n.register.text[3]) 
+							? this.i18n.register.text[3] 
+							: '注册成功'
+						this.$utils.showToast(successMsg)
+						
+						// 跳转至登录页面
+						setTimeout(()=>{
+							console.log('[REGISTER] 準備跳轉到登入頁面')
+							uni.redirectTo({
+								url:'/pages/common/login'
+							})
+						},1500)
+					} else {
+						// 註冊失敗 - 顯示錯誤訊息
+						console.warn('[REGISTER] 註冊失敗，響應數據:', res)
+						let errorMsg = '注册失败，请稍后重试';
+						if(res && res.msg){
+							errorMsg = res.msg;
+						} else if(res && res.data && typeof res.data === 'string'){
+							errorMsg = res.data;
+						}
+						// 只有在 HTTP 攔截器沒有顯示錯誤訊息時才顯示
+						if(res !== false){
+							this.$utils.showToast(errorMsg);
+						}
+						console.error('[REGISTER] 註冊失敗:', res);
+					}
 				}).catch(err => {
+					console.error('[REGISTER] API 調用失敗:', err)
 					// 隐藏加载提示
 					uni.hideLoading();
 					this.isSubmitting = false;
@@ -304,11 +450,13 @@
 						errorMsg = err.msg;
 					} else if(err && err.message){
 						errorMsg = err.message;
+					} else if(err && err.data && typeof err.data === 'string'){
+						errorMsg = err.data;
 					} else if(typeof err === 'string'){
 						errorMsg = err;
 					}
 					
-					console.error('注册失败:', err);
+					console.error('[REGISTER] 註冊失敗:', err);
 					this.$utils.showToast(errorMsg);
 				})
 			},
@@ -689,7 +837,28 @@
 	    color: #fff;
 	    font-size: 18px;
 	    text-align: center;
-	    margin: 15px 30px 30px
+	    margin: 15px 30px 30px;
+	    cursor: pointer;
+	    user-select: none;
+	    transition: all 0.2s ease;
+	    position: relative;
+	    overflow: hidden;
+	}
+	
+	.btn:active,
+	.btn.btn-clicking {
+	    transform: scale(0.95);
+	    box-shadow: 0 2px 8px rgba(0, 118, 250, 0.3);
+	}
+	
+	.btn:hover:not(.btn-disabled) {
+	    background-color: #0066e0;
+	    box-shadow: 0 4px 12px rgba(0, 118, 250, 0.4);
+	}
+	
+	.btn.btn-disabled {
+	    opacity: 0.6;
+	    cursor: not-allowed;
 	}
 
 </style>

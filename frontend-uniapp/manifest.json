@@ -1,6 +1,6 @@
 {
     "name" : "HKEX",
-    "appid" : "__UNI__CF0C285",
+    "appid" : "__UNI__B1711F1",
     "description" : "",
     "versionName" : "0.9.8",
     "versionCode" : 98,
@@ -135,7 +135,7 @@
         },
         "optimization" : {
             "treeShaking" : {
-                "enable" : true
+                "enable" : false
             }
         },
         "title" : "NYSE",

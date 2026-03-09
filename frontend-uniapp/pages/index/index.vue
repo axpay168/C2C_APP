@@ -191,6 +191,14 @@
 			// })
 			//设置默认语言
 			this.setDefaultLang()
+			// 先檢查登入狀態，未登入則跳轉到登入頁
+			const token = uni.getStorageSync('token') || ""
+			if (!token) {
+				uni.redirectTo({
+					url: "/pages/common/login"
+				})
+				return
+			}
 			// this.get()
 			this.getBanner()
 			this.getNocar()
@@ -201,10 +209,14 @@
 				// console.log(this.randomNumber)
 			}, 5000);
 			this.$u.api.index.shoujia().then(res => {
-				this.bili = res.data.shoujia
+				if (res && res.data && res.data.shoujia) {
+					this.bili = res.data.shoujia
+				}
+			}).catch(err => {
+				console.warn('shoujia failed:', err)
 			})
 		},
-		onShow() {
+			onShow() {
 			// uni.hideTabBar()
 			this.checkIsLogin()
 			 this.getList()
@@ -214,16 +226,28 @@
 					url: apiBase + "/Ems/updateData",
 					method: "GET",
 					success: (res) => {
-						console.log(res.data.data[0]['price'])
-						if (res.data.code == 1) {
-							//that.showQuotationList = res.data.message[0].quotation;
-							this.btcprice = res.data.data[0].price
-							this.zf1 = res.data.data[0].zf.toFixed(3)
-							this.ethprice = res.data.data[1].price
-							this.zf2 = res.data.data[1].zf.toFixed(3)
-							this.xrpprice = res.data.data[2].price
-							this.zf3 = res.data.data[2].zf.toFixed(3)
-
+						// 檢查響應數據結構是否正確
+						if (res.data && res.data.code == 1 && res.data.data && Array.isArray(res.data.data) && res.data.data.length >= 3) {
+							// 安全訪問數組元素
+							if (res.data.data[0]) {
+								console.log(res.data.data[0]['price'])
+								this.btcprice = res.data.data[0].price
+								if (res.data.data[0].zf !== undefined) {
+									this.zf1 = res.data.data[0].zf.toFixed(3)
+								}
+							}
+							if (res.data.data[1]) {
+								this.ethprice = res.data.data[1].price
+								if (res.data.data[1].zf !== undefined) {
+									this.zf2 = res.data.data[1].zf.toFixed(3)
+								}
+							}
+							if (res.data.data[2]) {
+								this.xrpprice = res.data.data[2].price
+								if (res.data.data[2].zf !== undefined) {
+									this.zf3 = res.data.data[2].zf.toFixed(3)
+								}
+							}
 						//	this.zongliang = res.data.message[0].quotation[0].volume
 							// setTimeout(() => {
 							// 	this.klineo()
@@ -252,7 +276,12 @@
 				const token = uni.getStorageSync('token')
 				this.$u.api.index.get_placard(token).then(res => {
 					// console.log(res)
-					this.news = ["" + res.data[0].titles + ""]
+					// 安全訪問數組元素
+					if (res && res.data && Array.isArray(res.data) && res.data.length > 0 && res.data[0] && res.data[0].titles) {
+						this.news = ["" + res.data[0].titles + ""]
+					}
+				}).catch(err => {
+					console.warn('getNocar failed:', err)
 				})
 			},
 			checkIsLogin() {
@@ -375,15 +404,28 @@
 					url: apiBase + "/Ems/updateData",
 					method: "GET",
 					success: (res) => {
-						console.log(res.data.data[0]['price'])
-						if (res.data.code == 1) {
-							//that.showQuotationList = res.data.message[0].quotation;
-							this.btcprice = res.data.data[0].price
-							this.zf1 = res.data.data[0].zf
-							this.ethprice = res.data.data[1].price
-							this.zf2 = res.data.data[1].zf
-							this.xrpprice = res.data.data[2].price
-							this.zf3 = res.data.data[2].zf
+						// 檢查響應數據結構是否正確
+						if (res.data && res.data.code == 1 && res.data.data && Array.isArray(res.data.data) && res.data.data.length >= 3) {
+							// 安全訪問數組元素
+							if (res.data.data[0]) {
+								console.log(res.data.data[0]['price'])
+								this.btcprice = res.data.data[0].price
+								if (res.data.data[0].zf !== undefined) {
+									this.zf1 = res.data.data[0].zf
+								}
+							}
+							if (res.data.data[1]) {
+								this.ethprice = res.data.data[1].price
+								if (res.data.data[1].zf !== undefined) {
+									this.zf2 = res.data.data[1].zf
+								}
+							}
+							if (res.data.data[2]) {
+								this.xrpprice = res.data.data[2].price
+								if (res.data.data[2].zf !== undefined) {
+									this.zf3 = res.data.data[2].zf
+								}
+							}
 
 						//	this.zongliang = res.data.message[0].quotation[0].volume
 							// setTimeout(() => {

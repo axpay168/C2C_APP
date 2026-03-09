@@ -34,7 +34,7 @@
 					<div class="van-cell van-field" style="width: 150px;">
 						<div class="van-cell__value van-cell__value--alone van-field__value">
 							<div class="van-field__body"><input type="text" :placeholder="common.common6[2]"
-									class="van-field__control" :value="password" v-model="password"></div>
+									class="van-field__control" v-model="password"></div>
 						</div>
 					</div>
 				</div>
@@ -44,7 +44,7 @@
 					<div class="van-cell van-field" style="width: 150px;">
 						<div class="van-cell__value van-cell__value--alone van-field__value">
 							<div class="van-field__body"><input type="text" :placeholder="common.hall3[0]"
-									class="van-field__control" :value="nickname" v-model="nickname"></div>
+									class="van-field__control" v-model="nickname"></div>
 						</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 					<div class="van-cell van-field" style="width: 150px;">
 						<div class="van-cell__value van-cell__value--alone van-field__value">
 							<div class="van-field__body"><input type="text" :placeholder="common.common6[2]"
-									class="van-field__control" :value="hhunye" v-model="hhunye"></div>
+									class="van-field__control" v-model="hhunye"></div>
 						</div>
 					</div>
 				</div>

@@ -17,19 +17,19 @@
 					</div>
 				</div>
 			</div>
-			<div class="infoBox" style="line-height: 22px;" v-if="userinfo.bank.length > 0">
-				<div style="font-size: 20px; width: 50%;">{{userinfo.username}}</div>
+			<div class="infoBox" style="line-height: 22px;" v-if="userinfo && userinfo.bank && Array.isArray(userinfo.bank) && userinfo.bank.length > 0">
+				<div style="font-size: 20px; width: 50%;">{{userinfo.username || ''}}</div>
 				<div style="display: flex;">
 					<div style="width: 40%;">{{common.buy.label[1]}} </div>
-					<div>: {{userinfo.bank[0].name}}</div>
+					<div>: {{userinfo.bank[0] && userinfo.bank[0].name ? userinfo.bank[0].name : ''}}</div>
 				</div>
 				<div style="display: flex;">
 					<div style="width: 40%;"> {{common.buy.label[0]}}</div>
-					<div>: {{userinfo.money}}</div>
+					<div>: {{userinfo.money || ''}}</div>
 				</div>
 				<div style="display: flex;">
 					<div style="width: 40%;"> {{common.buy.label[2]}} </div>
-					<div>: {{userinfo.bank[0].card_no}}</div>
+					<div>: {{userinfo.bank[0] && userinfo.bank[0].card_no ? userinfo.bank[0].card_no : ''}}</div>
 				</div>
 			</div>
 			<div class="infoBox" v-else>
@@ -44,14 +44,14 @@
 							<div class="van-cell__title van-field__label"><span>{{common.buy.label[3]}}</span></div>
 							<div class="van-cell__value van-field__value">
 								<div class="van-field__body"><input type="text" readonly="readonly"
-										:value="shijia" v-model="shijia" class="van-field__control"></div>
+										:value="shijia" class="van-field__control"></div>
 							</div>
 						</div>
 						<div class="van-cell van-field">
 							<div class="van-cell__title van-field__label"><span>{{common.buy.label[4]}}</span></div>
 							<div class="van-cell__value van-field__value">
 								<div class="van-field__body"><input type="text" readonly="readonly"
-										:value="youjia" v-model="youjia" class="van-field__control"></div>
+										:value="youjia" class="van-field__control"></div>
 							</div>
 						</div>
 						<div style="display: flex; background-color: rgb(25, 28, 35);">
@@ -59,7 +59,7 @@
 								<div class="van-cell__title van-field__label"><span>{{common.sell.label[5]}}</span></div>
 								<div class="van-cell__value van-field__value">
 									<div class="van-field__body"><input type="text" :placeholder="common.sell.placeholder[0]"
-											class="van-field__control" :value="maijia" v-model="maijia"></div>
+											class="van-field__control" v-model="maijia"></div>
 								</div>
 							</div><button class="van-button van-button--default van-button--min"
 								@click="yosji"
@@ -104,7 +104,11 @@
 				maijia:'',
 				mainum:'',
 				rolist:[],
-				userinfo:[],
+				userinfo: {
+					bank: [],
+					username: '',
+					money: ''
+				},
 				secondsInterval:null,
 				seconds:15,
 			};
@@ -154,31 +158,65 @@
 				})
 			},
 			allin(){
-				this.mainum = this.userinfo.money
+				if (this.userinfo && this.userinfo.money) {
+					this.mainum = this.userinfo.money
+				} else {
+					console.warn('[SELL] 無法獲取用戶餘額')
+					this.$utils.showToast('無法獲取用戶餘額')
+				}
 			},
 			yosji(){
 				this.maijia = this.youjia
 			},
 			getuserinfo(){
 				const token = uni.getStorageSync('token')
+				if (!token) {
+					console.warn('[SELL] 沒有 token，無法獲取用戶信息')
+					this.userinfo = { bank: [] }
+					return
+				}
 				this.$u.api.index.getUserinfo(token).then(res => {
-					this.userinfo = res.data
+					if (res && res.data) {
+						this.userinfo = res.data
+						// 確保 bank 是數組
+						if (!this.userinfo.bank || !Array.isArray(this.userinfo.bank)) {
+							this.userinfo.bank = []
+						}
+						console.log('[SELL] 用戶信息已加載:', this.userinfo)
+					} else {
+						console.warn('[SELL] 獲取用戶信息失敗，響應數據:', res)
+						this.userinfo = { bank: [] }
+					}
+				}).catch(err => {
+					console.error('[SELL] 獲取用戶信息失敗:', err)
+					this.userinfo = { bank: [] }
 				})
 			},
 			getrobot(){
 				const token = uni.getStorageSync('token')
+				if (!token) {
+					console.warn('[SELL] 沒有 token，無法獲取機器人信息')
+					return
+				}
 				this.$u.api.index.robot(token).then(res => {
-					// console.log(res)
-					this.rolist = res.data[0]
-					this.secondsInterval = setInterval(() => {
-						this.seconds = this.seconds - 1
-						if (this.seconds == 0) {
-							this.seconds = 15
-							this.rolist = res.data[this.seconds]
-						}else{
-							this.rolist = res.data[this.seconds]
-						}
-					}, 3000)
+					if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+						this.rolist = res.data[0] || {}
+						this.secondsInterval = setInterval(() => {
+							this.seconds = this.seconds - 1
+							if (this.seconds == 0) {
+								this.seconds = 15
+							}
+							if (res.data && res.data[this.seconds]) {
+								this.rolist = res.data[this.seconds]
+							}
+						}, 3000)
+					} else {
+						console.warn('[SELL] 獲取機器人信息失敗，響應數據:', res)
+						this.rolist = {}
+					}
+				}).catch(err => {
+					console.error('[SELL] 獲取機器人信息失敗:', err)
+					this.rolist = {}
 				})
 			},
 			back() {

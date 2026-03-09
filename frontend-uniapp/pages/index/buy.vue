@@ -17,14 +17,14 @@
 					</div>
 				</div>
 			</div>
-			<div style="margin-top: 20px;display: none;" class="infoBox" v-if="userinfo.bank.length > 0">
+			<div style="margin-top: 20px;display: none;" class="infoBox" v-if="userinfo && userinfo.bank && Array.isArray(userinfo.bank) && userinfo.bank.length > 0">
 				<div style="display: flex;">
-					<div style="font-size: 15px; width: 50%;">{{userinfo.username}}</div>
-					<div>{{common.buy.label[1]}} :{{userinfo.bank[0].name}}</div>
+					<div style="font-size: 15px; width: 50%;">{{userinfo.username || ''}}</div>
+					<div>{{common.buy.label[1]}} :{{userinfo.bank[0] && userinfo.bank[0].name ? userinfo.bank[0].name : ''}}</div>
 				</div>
 				<div style="display: flex;">
-					<div style="font-size: 15px; width: 50%;"> {{common.buy.label[0]}}:{{userinfo.money}}</div>
-					<div>{{common.buy.label[2]}} :{{userinfo.bank[0].card_no}}</div>
+					<div style="font-size: 15px; width: 50%;"> {{common.buy.label[0]}}:{{userinfo.money || ''}}</div>
+					<div>{{common.buy.label[2]}} :{{userinfo.bank[0] && userinfo.bank[0].card_no ? userinfo.bank[0].card_no : ''}}</div>
 				</div>
 			</div>
 			<div style="margin-top: 20px;display: none;" class="infoBox" v-else>
@@ -38,8 +38,8 @@
 						<div class="van-cell van-field">
 							<div class="van-cell__title van-field__label"><span>{{common.sell.label[0]}}</span></div>
 							<div class="van-cell__value van-field__value">
-								<div class="van-field__body"><input type="text" readonly="readonly"
-										:value="userinfo.money" class="van-field__control"></div>
+							<div class="van-field__body"><input type="text" readonly="readonly"
+									:value="userinfo && userinfo.money ? userinfo.money : ''" class="van-field__control"></div>
 							</div>
 						</div>
 						
@@ -69,14 +69,14 @@
 							<div class="van-cell__title van-field__label"><span>{{common.buy.label[3]}}</span></div>
 							<div class="van-cell__value van-field__value">
 								<div class="van-field__body"><input type="text" readonly="readonly"
-										:value="shijia" v-model="shijia" class="van-field__control"></div>
+										:value="shijia" class="van-field__control"></div>
 							</div>
 						</div>
 						<div class="van-cell van-field">
 							<div class="van-cell__title van-field__label"><span>{{common.buy.label[4]}}</span></div>
 							<div class="van-cell__value van-field__value">
 								<div class="van-field__body"><input type="text" readonly="readonly"
-										:value="youjia" v-model="youjia" class="van-field__control"></div>
+										:value="youjia" class="van-field__control"></div>
 							</div>
 						</div>
 						<div style="display: flex; background-color: rgb(25, 28, 35);">
@@ -85,7 +85,7 @@
 								<div class="van-cell__title van-field__label"><span>{{common.buy.label[5]}}</span></div>
 								<div class="van-cell__value van-field__value">
 									<div class="van-field__body"><input type="text" :placeholder="common.buy.placeholder[0]"
-											class="van-field__control" :value="maijia" v-model="maijia"></div>
+											class="van-field__control" v-model="maijia"></div>
 								</div>
 							</div><button class="van-button van-button--default van-button--min"
 								@click="yosji"
@@ -184,7 +184,11 @@
 				rolist:[],
 				secondsInterval:null,
 				seconds:15,
-				userinfo:[],
+				userinfo: {
+					bank: [],
+					username: '',
+					money: ''
+				},
 				mask:true,
 				shijia:'',
 				youjia:'',
@@ -239,8 +243,26 @@
 			},
 			getuserinfo(){
 				const token = uni.getStorageSync('token')
+				if (!token) {
+					console.warn('[BUY] 沒有 token，無法獲取用戶信息')
+					this.userinfo = { bank: [] }
+					return
+				}
 				this.$u.api.index.getUserinfo(token).then(res => {
-					this.userinfo = res.data
+					if (res && res.data) {
+						this.userinfo = res.data
+						// 確保 bank 是數組
+						if (!this.userinfo.bank || !Array.isArray(this.userinfo.bank)) {
+							this.userinfo.bank = []
+						}
+						console.log('[BUY] 用戶信息已加載:', this.userinfo)
+					} else {
+						console.warn('[BUY] 獲取用戶信息失敗，響應數據:', res)
+						this.userinfo = { bank: [] }
+					}
+				}).catch(err => {
+					console.error('[BUY] 獲取用戶信息失敗:', err)
+					this.userinfo = { bank: [] }
 				})
 			},
 			getrobot(){

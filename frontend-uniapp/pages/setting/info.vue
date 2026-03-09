@@ -32,7 +32,7 @@
 								<div class="van-cell van-field" style="width: 150px;">
 									<div class="van-cell__value van-cell__value--alone van-field__value">
 										<div class="van-field__body2"><input type="text" :placeholder="common.userInfo.default[8]"
-												class="van-field__control" :value="nickname" v-model="nickname"></div>
+												class="van-field__control" v-model="nickname"></div>
 									</div>
 								</div>
 							</div>
@@ -73,7 +73,7 @@
 					<div class="van-cell van-field" style="width: 150px;">
 						<div class="van-cell__value van-cell__value--alone van-field__value">
 							<div class="van-field__body2"><input type="text" :placeholder="common.userInfo.default[8]"
-									class="van-field__control" :value="password" v-model="password"></div>
+									class="van-field__control" v-model="password"></div>
 						</div>
 					</div>
 				</div>
