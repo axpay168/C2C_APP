@@ -206,7 +206,7 @@ class User extends Api
            // $this->error($this->getLangPack($lang)->getData()['the invitation code is wrong or does not exist']);
         }
 
-        $ret = $this->auth->register($username, $password, $extend, $inv['id'], $lang);
+        $ret = $this->auth->register($username, $password, $inv['id'], $lang, $extend);
         
         if ($ret) {
 

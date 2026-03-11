@@ -16,7 +16,8 @@
 define('APP_PATH', __DIR__ . '/../application/');
 
 // 判断是否安装
-if (!is_file(APP_PATH . 'admin/command/Install/install.lock')) {
+$installed = is_file(__DIR__ . '/.installed') || @is_file(APP_PATH . 'admin/command/Install/install.lock');
+if (!$installed) {
     header("location:./install.php");
     exit;
 }

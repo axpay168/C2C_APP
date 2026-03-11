@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/h5/static/**", "destination": "/static/:splat" },
+    { "source": "/h5/static/**", "destination": "/static/:rest" },
+    { "source": "/h5", "destination": "/index.html" },
+    { "source": "/h5/", "destination": "/index.html" },
+    { "source": "/h5/**", "destination": "/index.html" }
+  ]
+}

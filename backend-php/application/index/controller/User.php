@@ -121,7 +121,8 @@ class User extends Frontend
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
             }
-            if ($this->auth->register($username, $password, $email, $mobile)) {
+            $lang = $this->request->request('lang', 'zh-cn');
+            if ($this->auth->register($username, $password, 0, $lang, ['email' => $email, 'mobile' => $mobile])) {
                 $this->success(__('Sign up successful'), $url ? $url : url('user/index'));
             } else {
                 $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);

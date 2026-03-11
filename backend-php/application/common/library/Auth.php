@@ -151,12 +151,12 @@ class Auth
      *
      * @param string $username 用户名
      * @param string $password 密码
-     * @param string $email    邮箱
-     * @param string $mobile   手机号
+     * @param int    $invid    邀请人ID
+     * @param string $lang     语言
      * @param array  $extend   扩展参数
      * @return boolean
      */
-    public function register($username, $password, $extend = [],$invid,$lang)
+    public function register($username, $password, $invid, $lang, $extend = [])
     {
         // 检测用户名、昵称、邮箱、手机号是否存在
         // if (User::getByUsername($username)) {

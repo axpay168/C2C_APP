@@ -1,0 +1,239 @@
+.arbitrage_product {
+	padding-bottom: .9rem
+}
+
+.arbitrage_product .header {
+	position: relative;
+	padding: .27rem .44rem;
+	text-align: center
+}
+
+.arbitrage_product .header .back {
+	position: absolute;
+	top: 0;
+	left: .44rem;
+	bottom: 0;
+	margin: auto;
+	width: .4rem
+}
+
+.arbitrage_product .pro_top {
+	margin-top: .56rem;
+	padding: 0 .32rem 0 .48rem;
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_product .pro_top .top_img {
+	width: 2.47rem
+}
+
+.arbitrage_product .pro_detail {
+	padding: 0 .32rem
+}
+
+.arbitrage_product .pro_detail .detail_content {
+	padding: .54rem .4rem .64rem;
+	background: #fff;
+	box-shadow: 6px 12px 20px 0 rgba(0, 0, 0, .1);
+	border-radius: .3rem .3rem 0 0
+}
+
+.arbitrage_product .pro_detail .detail_content .pro_title {
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_product .pro_detail .detail_content .pro_title .pro_cycle {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	font-size: .36rem;
+	color: #353f52
+}
+
+.arbitrage_product .pro_detail .detail_content .pro_title .pro_cycle .icon_save {
+	margin-right: .2rem;
+	width: .48rem
+}
+
+.arbitrage_product .pro_detail .detail_content .item_value {
+	margin-top: .5rem;
+	display: flex;
+	text-align: center
+}
+
+.arbitrage_product .pro_detail .detail_content .item_value .value_item {
+	width: 50%
+}
+
+.arbitrage_product .pro_detail .detail_content .item_types {
+	margin-top: .4rem;
+	padding-bottom: .44rem;
+	border-bottom: 1px solid hsla(0, 0%, 84.7%, .5)
+}
+
+.arbitrage_product .pro_detail .detail_content .item_types .types_action {
+	margin-top: .24rem;
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_product .pro_detail .detail_content .item_types .types_action .types {
+	display: flex;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_product .pro_detail .detail_content .item_types .types_action .types .coin_icon {
+	margin-right: .24rem;
+	width: .4rem
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting {
+	margin-top: .56rem;
+	padding: 0 .2rem
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address {
+	margin-top: .24rem;
+	position: relative;
+	height: .94rem;
+	line-height: .94rem;
+	background: #f3f4f6;
+	border-radius: .2rem
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	background: 0 0;
+	border-radius: .2rem;
+	color: #353f52;
+	caret-color: #1652f0;
+	font-family: InterSemiBold
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input:focus {
+	border: 1px solid #1652f0
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input::-moz-placeholder {
+	color: rgba(95, 103, 117, .3)
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input:-ms-input-placeholder {
+	color: rgba(95, 103, 117, .3)
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input::placeholder {
+	color: rgba(95, 103, 117, .3)
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input.address_input {
+	padding: 0 .96rem 0 .32rem
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address input.amount_input {
+	padding: 0 1.96rem 0 .88rem
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address .coin_icon {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: .32rem;
+	margin: auto;
+	width: .32rem;
+	border-radius: 50%
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address .coin_sympol {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: .32rem;
+	margin: auto;
+	color: rgba(95, 103, 117, .3);
+	font-family: NunitoSemiBold
+}
+
+.arbitrage_product .pro_detail .detail_content .hosting .input_content .address .coin_sympol.active {
+	color: #353f52
+}
+
+.arbitrage_product .pro_detail .detail_content .submit {
+	margin: 0 auto;
+	margin-top: .64rem;
+	width: 4.46rem;
+	height: .92rem;
+	line-height: .92rem;
+	text-align: center;
+	color: #fff;
+	background: #1652f0;
+	border-radius: .2rem;
+	font-size: .32rem
+}
+
+.arbitrage_product .pro_detail .tips_content {
+	padding: .44rem;
+	background: #f5f6f8;
+	box-shadow: 6px 12px 20px 0 rgba(0, 0, 0, .1);
+	border-radius: 0 0 .3rem .3rem
+}
+
+.arbitrage_product .pro_detail .tips_content .tips_item {
+	margin-bottom: .08rem;
+	display: flex;
+	align-content: center;
+	align-items: center
+}
+
+.arbitrage_product .pro_detail .tips_content .tips_item .icon_tips {
+	margin-right: .2rem;
+	width: .26rem
+}
+
+.arbitrage_product .popup_content .ensure_popup {
+	width: 6.42rem;
+	background: #fff;
+	border-radius: .2rem
+}
+
+.arbitrage_product .popup_content .ensure_popup .ensure_content {
+	padding: .44rem;
+	text-align: center
+}
+
+.arbitrage_product .popup_content .ensure_popup .ensure_content .icon_ensure {
+	width: 1.26rem
+}
+
+.arbitrage_product .popup_content .ensure_popup .ensure_content .amount_info {
+	margin-top: .56rem
+}
+
+.arbitrage_product .popup_content .ensure_popup .ensure_content .confirm {
+	margin: 0 auto;
+	margin-top: .72rem;
+	width: 4.46rem;
+	height: .92rem;
+	line-height: .92rem;
+	background: #1652f0;
+	border-radius: .2rem;
+	color: #fff;
+	font-size: .32rem
+}
+
+.arbitrage_product .popup_content .ensure_popup .ensure_content .tips {
+	margin-top: .4rem;
+	font-size: .24rem;
+	color: rgba(91, 97, 110, .5)
+}

@@ -14,7 +14,9 @@
 define('APP_PATH', __DIR__ . '/../application/');
 
 // 判断是否安装
-if (!is_file(APP_PATH . 'admin/command/Install/install.lock')) {
+// 優先檢查 public/.installed（解決宝塔防跨站 open_basedir 導致無法讀取 application 下 install.lock 的問題）
+$installed = is_file(__DIR__ . '/.installed') || @is_file(APP_PATH . 'admin/command/Install/install.lock');
+if (!$installed) {
     header("location:./install.php");
     exit;
 }

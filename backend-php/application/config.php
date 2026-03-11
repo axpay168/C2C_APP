@@ -183,7 +183,7 @@ return [
         'type'   => 'File',
         // 缓存保存目录
         // 'path'   => CACHE_PATH,
-        'path'   =>  APP_PATH . 'runtime/lang_cache/',
+        'path'   =>  CACHE_PATH,
        
         // 缓存前缀
         'prefix' => '',

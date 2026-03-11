@@ -5,10 +5,11 @@
   "description": "old 專案 uni-app 前端，可靜態獨立運行、不依賴 HBuilderX",
   "scripts": {
     "postinstall": "patch-package",
-    "start": "serve static-h5 -l 8082",
-    "start:static": "serve static-h5 -l 8082",
-    "static": "serve static-h5 -l 8082",
-    "dev:h5": "cross-env NODE_ENV=development UNI_PLATFORM=h5 vue-cli-service serve",
+    "prestart": "fuser -k 8082/tcp 2>/dev/null || true",
+    "start": "serve static-h5 -l 8082 -n",
+    "start:static": "serve static-h5 -l 8082 -n",
+    "static": "serve static-h5 -l 8082 -n",
+    "dev:h5": "cross-env NODE_ENV=development UNI_PLATFORM=h5 UNI_CLI_CONTEXT=$(pwd) UNI_INPUT_DIR=$(pwd) vue-cli-service serve",
     "build:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 UNI_CLI_CONTEXT=$(pwd) UNI_INPUT_DIR=$(pwd) vue-cli-service build",
     "serve:dist": "serve unpackage/dist/build/h5 -l 8082",
     "deploy:h5": "cp -r unpackage/dist/build/h5/* ../backend-php/public/h5/ 2>/dev/null || cp -r static-h5/* ../backend-php/public/h5/ 2>/dev/null || echo '請先 npm run build:h5 或使用 static-h5'"

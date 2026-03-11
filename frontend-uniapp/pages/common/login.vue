@@ -315,9 +315,11 @@
 	}
 </script>
 <style lang="scss" scoped>
+	@import '@/common/design-tokens.scss';
+
 	.login-container {
 		min-height: 100vh;
-		background: linear-gradient(180deg, #E3F2FD 0%, #BBDEFB 100%);
+		background: linear-gradient(165deg, #f8faff 0%, #e8f0fe 35%, #dee9f7 100%);
 		padding: 0;
 		position: relative;
 		box-sizing: border-box;
@@ -328,7 +330,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px 20px 10px 20px;
+		padding: $spacing-lg $spacing-md $spacing-sm;
 		position: relative;
 		z-index: 10;
 	}
@@ -343,32 +345,34 @@
 	}
 
 	.back-icon {
-		font-size: 24px;
-		color: #1976D2;
-		font-weight: bold;
+		font-size: $font-size-xl;
+		color: $color-primary;
+		font-weight: $font-weight-semibold;
+		transition: color $transition-fast;
+		&:hover { color: $color-primary-dark; }
 	}
 
 	.header-right {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: $spacing-sm;
 		cursor: pointer;
 	}
 
 	.lang-text {
-		font-size: 16px;
-		color: #666;
-		transition: color 0.3s;
+		font-size: $font-size-md;
+		color: $color-text-secondary;
+		transition: color $transition-base;
 		
 		&.active {
-			color: #1976D2;
-			font-weight: 600;
+			color: $color-primary;
+			font-weight: $font-weight-semibold;
 		}
 	}
 
 	.lang-separator {
-		font-size: 16px;
-		color: #999;
+		font-size: $font-size-md;
+		color: $color-text-tertiary;
 	}
 
 	/* Logo 區域 */
@@ -382,14 +386,14 @@
 	.logo-wrapper {
 		width: 120px;
 		height: 120px;
-		background: #fff;
-		border-radius: 20px;
+		background: $color-surface;
+		border-radius: $radius-xl;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		margin-bottom: 20px;
-		padding: 10px;
+		box-shadow: $shadow-md;
+		margin-bottom: $spacing-lg;
+		padding: $spacing-md;
 		box-sizing: border-box;
 	}
 
@@ -400,10 +404,10 @@
 	}
 
 	.welcome-text {
-		font-size: 24px;
-		font-weight: 600;
-		color: #1976D2;
-		margin-top: 10px;
+		font-size: $font-size-2xl;
+		font-weight: $font-weight-semibold;
+		color: $color-primary;
+		margin-top: $spacing-md;
 		text-align: center;
 	}
 
@@ -416,26 +420,32 @@
 
 	.input-wrapper {
 		position: relative;
-		margin-bottom: 20px;
-		background: #fff;
-		border-radius: 12px;
-		padding: 0 16px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		margin-bottom: $spacing-lg;
+		background: $color-surface;
+		border-radius: $radius-md;
+		padding: 0 $spacing-md;
+		box-shadow: $shadow-sm;
 		display: flex;
 		align-items: center;
+		border: 1px solid $color-border-light;
+		transition: border-color $transition-fast, box-shadow $transition-fast;
+		&:focus-within {
+			border-color: $color-primary;
+			box-shadow: $shadow-glow;
+		}
 	}
 
 	.login-input {
 		width: 100%;
-		height: 50px;
-		font-size: 16px;
-		color: #333;
+		height: 52px;
+		font-size: $font-size-md;
+		color: $color-text-primary;
 		border: none;
 		outline: none;
 		background: transparent;
 		
 		&::placeholder {
-			color: #999;
+			color: $color-text-tertiary;
 		}
 	}
 
@@ -473,30 +483,30 @@
 	.checkbox {
 		width: 20px;
 		height: 20px;
-		border: 2px solid #1976D2;
-		border-radius: 4px;
+		border: 2px solid $color-primary;
+		border-radius: $radius-sm;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-right: 8px;
-		background: #fff;
-		transition: all 0.3s;
+		margin-right: $spacing-sm;
+		background: $color-surface;
+		transition: all $transition-fast;
 
 		&.checked {
-			background: #1976D2;
-			border-color: #1976D2;
+			background: $color-primary;
+			border-color: $color-primary;
 		}
 	}
 
 	.checkmark {
 		color: #fff;
-		font-size: 14px;
-		font-weight: bold;
+		font-size: $font-size-sm;
+		font-weight: $font-weight-bold;
 	}
 
 	.remember-text {
-		font-size: 14px;
-		color: #666;
+		font-size: $font-size-sm;
+		color: $color-text-secondary;
 	}
 
 	/* 登入按鈕 */
@@ -506,28 +516,28 @@
 
 	.login-button {
 		width: 100%;
-		height: 50px;
-		background: #1976D2;
+		height: 52px;
+		background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
 		color: #fff;
 		border: none;
-		border-radius: 12px;
-		font-size: 18px;
-		font-weight: 600;
+		border-radius: $radius-md;
+		font-size: $font-size-lg;
+		font-weight: $font-weight-semibold;
 		cursor: pointer;
-		transition: all 0.3s;
-		box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+		transition: all $transition-base;
+		box-shadow: $shadow-glow;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
 		&:hover {
-			background: #1565C0;
-			box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+			background: linear-gradient(135deg, $color-primary-dark 0%, #0D47A1 100%);
+			box-shadow: 0 8px 24px rgba(25, 118, 210, 0.35);
 		}
 
 		&:active {
-			background: #0D47A1;
 			transform: scale(0.98);
+			box-shadow: $shadow-sm;
 		}
 	}
 
@@ -540,10 +550,10 @@
 	}
 
 	.link-text {
-		font-size: 14px;
-		color: #1976D2;
+		font-size: $font-size-sm;
+		color: $color-primary;
 		cursor: pointer;
-		transition: opacity 0.3s;
+		transition: opacity $transition-fast;
 
 		&:active {
 			opacity: 0.7;

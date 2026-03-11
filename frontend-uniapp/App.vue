@@ -39,6 +39,7 @@
 	} */
 </style>
 <style lang="scss">
+	@import 'common/design-tokens.scss';
 	@import 'components/page-animation/index.css';
 	@import "uview-ui/index.scss";
 	@import "common/demo.scss";
