@@ -18,7 +18,8 @@ export default {
 			text: ["Crypto", "Verification code is sending...", "Click to get", "Registering...", "Sign up now"],
 			placeholder: ["Please enter your email address", "Please enter verification code",
 				"Please enter your password", "Please confirm your password", "Please enter the invitation code",
-				"Two passwords are inconsistent", "Please enter verification code", "Invalid Email address"
+				"Two passwords are inconsistent", "Please enter verification code", "Invalid Email address",
+				"Password must be at least 6 characters", "Please enter a valid phone number"
 			],
 			label: ["Already have an account?{a} {line}", "Back to log in"],
 			codes: ["Account has already exists", "No verification code", "Verification code is incorrect",

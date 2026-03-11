@@ -1,86 +1,84 @@
 <template>
-	<view class="login-container">
-		<!-- 頂部導航欄 -->
-		<view class="login-header">
-			<view class="header-left" @click="handleBack">
-				<text class="back-icon">←</text>
-			</view>
-			<view class="header-right" @click="showLanguage = true">
-				<text class="lang-text" :class="{ active: currentLang === 'chn' }">中文</text>
-				<text class="lang-separator">|</text>
-				<text class="lang-text" :class="{ active: currentLang === 'eng' }">EN</text>
-			</view>
-		</view>
-
-		<!-- Logo 區域 -->
-		<view class="logo-section">
-			<view class="logo-wrapper">
-				<image src="../../static/image/news/logo.png" mode="aspectFit" class="logo-image"></image>
-			</view>
-			<view class="welcome-text">{{ currentLang === 'chn' ? '欢迎!' : 'Welcome!' }}</view>
-		</view>
-
-		<!-- 登入表單 -->
-		<view class="login-form">
-			<!-- 手機號/郵箱輸入框 -->
-			<view class="input-wrapper">
-				<input 
-					type="text" 
-					v-model="user_string"
-					:placeholder="(i18n.login && i18n.login.placeholder && i18n.login.placeholder[0]) ? i18n.login.placeholder[0] : '请输入手机号码'"
-					class="login-input"
-					autocomplete="off"
-				/>
-			</view>
-
-			<!-- 密碼輸入框 -->
-			<view class="input-wrapper">
-				<input 
-					:type="showPassword ? 'text' : 'password'"
-					v-model="password"
-					:placeholder="(i18n.login && i18n.login.placeholder && i18n.login.placeholder[1]) ? i18n.login.placeholder[1] : '请输入密码'"
-					class="login-input"
-					autocomplete="off"
-				/>
-				<view class="password-toggle" @click="togglePassword">
-					<text class="eye-icon">{{ showPassword ? '👁️' : '👁️‍🗨️' }}</text>
-				</view>
-			</view>
-
-			<!-- 記住密碼 -->
-			<view class="remember-password">
-				<view class="checkbox-wrapper" @click="rememberPasswordFunc">
-					<view class="checkbox" :class="{ checked: rememberPassword }">
-						<text v-if="rememberPassword" class="checkmark">✓</text>
+	<view class="Body">
+		<view class="PageBox">
+			<view class="header_bg">
+				<view style="text-align: right; font-size: 16px; padding: 5px;">
+					<view class="van-row">
+						<view class="van-col van-col--18" style="text-align: left;" @click="open">
+							{{i18n.common5[6]}}
+						</view>
+						<view class="van-col van-col--6" @click="showLanguage = true">
+							{{i18n.language}}
+						</view>
 					</view>
-					<text class="remember-text">{{ currentLang === 'chn' ? '记住密码' : 'Remember password' }}</text>
 				</view>
 			</view>
-
-			<!-- 登入按鈕 -->
-			<view class="login-button-wrapper">
-				<button class="login-button" @click="login" @tap="login">{{ currentLang === 'chn' ? '登录' : 'Login' }}</button>
+			<view class="logo">
+				<image src="../../static/image/news/logo.png" mode="widthFix" style="text-align: center;width: 220px;">
+				</image>
 			</view>
-
-			<!-- 註冊和忘記密碼鏈接 -->
-			<view class="login-links">
-				<text class="link-text" @click="dumprun('/pages/common/register')">{{ currentLang === 'chn' ? '去注册' : 'Register' }}</text>
-				<text class="link-text" @click="handleForgotPassword">{{ currentLang === 'chn' ? '忘记密码' : 'Forgot password' }}</text>
-			</view>
-
-			<!-- 免責聲明 -->
-			<view class="disclaimer">
-				<text class="disclaimer-text">{{ currentLang === 'chn' ? '登录即表示您已接受上述条款和条件。' : 'Logging in means you have accepted the above terms and conditions.' }}</text>
-			</view>
-
-			<!-- 版本號 -->
-			<view class="version">
-				<text class="version-text">V1.0.1</text>
+			<view class="loginpanel">
+				<view style="padding-top: 20px;">
+					<view class="van-cell van-field" style="height: 0px; width: 0px; padding: 0px; position: absolute;">
+						<view class="van-cell__value van-cell__value--alone van-field__value">
+							<view class="van-field__body">
+								<input type="text" autocomplete="off" class="van-field__control">
+							</view>
+						</view>
+					</view>
+					<view class="van-cell van-field" style="height: 0px; width: 0px; padding: 0px; position: absolute;">
+						<view class="van-cell__value van-cell__value--alone van-field__value">
+							<view class="van-field__body">
+								<input type="password" autocomplete="off" class="van-field__control">
+							</view>
+						</view>
+					</view>
+					<view class="input van-cell van-cell--borderless van-cell--large van-field">
+						<view class="van-field__left-icon">
+							<i class="van-icon van-icon-manager"></i>
+						</view>
+						<view class="van-cell__value van-cell__value--alone van-field__value">
+							<view class="van-field__body">
+								<input type="text" autocomplete="off" v-model="user_string"
+									:placeholder="i18n.login.placeholder[0]" class="van-field__control">
+							</view>
+						</view>
+					</view>
+					<view class="input van-cell van-cell--borderless van-cell--large van-field">
+						<view class="van-field__left-icon">
+							<i class="van-icon">
+								<image src="../../static/image/news/pwd.png" class="van-icon__image"></image>
+							</i>
+						</view>
+						<view class="van-cell__value van-cell__value--alone van-field__value">
+							<view class="van-field__body">
+								<input type="password" autocomplete="off" v-model="password"
+									:placeholder="i18n.login.placeholder[1]" class="van-field__control">
+								<view class="van-field__right-icon">
+									<i class="van-icon van-icon-closed-eye"></i>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view style="text-align: right; margin-top: 20px; margin-right: 20px;">
+						<!-- <text>忘記密碼?</text> -->
+					</view>
+				</view>
+				<view style="padding: 10px 0px; text-align: center;">
+					<view class="btn" @click="login" @tap="login" style="cursor: pointer;">{{i18n.login.label[1]}}</view>
+					<view>
+						{{i18n.login.default[0]}} | <text class="href"
+							@click="dumprun('/pages/common/register')" @tap="dumprun('/pages/common/register')" style="cursor: pointer;">{{i18n.login.default[1]}}</text>
+					</view>
+				</view>
+				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
+					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
+					{{i18n.common[0]}}
+				</view>
 			</view>
 		</view>
-
-		<!-- 語言選擇彈窗 -->
-		<u-popup v-model="showLanguage" mode="bottom" length="60%" :title="(i18n.selectLang ? i18n.selectLang : 'Select Language')"
+		<!-- 选择语言的popup -->
+		<u-popup v-model="showLanguage" mode="bottom" length="60%" :title="i18n.selectLang"
 			contentBackgroundColor="white">
 			<view class="popup-list">
 				<view class="popup-list-item" v-for="item in langs" :key="item.value" :class="{active : item.selected}" @click="setLang(item)">
@@ -88,6 +86,7 @@
 				</view>
 			</view>
 		</u-popup>
+
 	</view>
 </template>
 <script>
@@ -100,26 +99,12 @@
 				showLanguage: false,
 				langs: langslist,
 				rememberPassword: uni.getStorageSync('rememberPassword') || false,
-				google_code: '',
-				showPassword: false,
-				currentLang: uni.getStorageSync('lang') || 'chn'
+				google_code: ''
 			};
 		},
-		onLoad() {
-			console.log('[LOGIN] 頁面載入，當前語言:', this.currentLang)
-			console.log('[LOGIN] 已保存的帳號:', this.user_string ? '有' : '無')
-			console.log('[LOGIN] 已保存的密碼:', this.password ? '有' : '無')
-			// console.log(this.$store.state.lang);
-			// console.log(JSON.stringify(this.$t("common")));
-			
-			// const _this = this
-			// uni.setNavigationBarTitle({
-			// 	title: _this.$t("common.login")
-			// })
-		},
+		onLoad() {},
 		onShow() {
 			this.setDefaultLang()
-			this.currentLang = uni.getStorageSync('lang') || 'chn'
 			this.$u.api.index.shoujia().then(res => {
 				if (res && res.data) uni.setStorageSync('shoujia', res.data.shoujia)
 			}).catch(err => {
@@ -130,9 +115,6 @@
 			i18n() {
 				return this.$t("common")
 			},
-			// setting() {
-			// 	return this.$t("setting")
-			// }
 		},
 		methods: {
 			setDefaultLang() {
@@ -157,19 +139,11 @@
 				})
 			},
 			dumprun(url) {
-				// this.$u.api.setting.getUserStatus(this.ciaddress).then(res => {
-				// if (res.code == 0) {
-				// 	this.getApprove()
-				// } else {
 				uni.navigateTo({
 					url
 				})
-				// }
-				// })
 			},
-			//设置语言
 			setLang(item) {
-				console.log('[LOGIN] 切換語言:', item.value, item.name)
 				let langs = this.langs.map(el => {
 					el.selected = false
 					if (el.value == item.value) el.selected = true
@@ -178,414 +152,67 @@
 				this.langs = langs
 				this._i18n.locale = item.value
 				this.lang = item
-				this.currentLang = item.value
 				uni.setStorageSync('lang', item.value);
 				this.$store.commit('setLangyan', item.value);
-				console.log('[LOGIN] 語言已切換為:', item.value)
 
 				setTimeout(() => {
 					this.showLanguage = false
 				}, 200)
 			},
 			login() {
-				console.log('[LOGIN] 點擊登入按鈕')
 				let { user_string, password } = this
-				console.log('[LOGIN] 輸入的帳號:', user_string, '密碼長度:', password ? password.length : 0)
-				
-				if (!user_string || user_string.trim() === '') {
-					const msg = (this.i18n && this.i18n.mobile) ? this.i18n.mobile : (this.currentLang === 'chn' ? '請輸入帳號' : 'Please enter your email')
-					console.warn('[LOGIN] 驗證失敗: 帳號為空')
-					this.$utils.showToast(msg)
+				if (!user_string || !user_string.trim()) {
+					this.$utils.showToast(this.i18n.mobile || 'Please enter your email')
 					return
 				}
-				if (!password || password.trim() === '') {
-					const msg = (this.i18n && this.i18n.password) ? this.i18n.password : (this.currentLang === 'chn' ? '請輸入密碼' : 'Please enter your password')
-					console.warn('[LOGIN] 驗證失敗: 密碼為空')
-					this.$utils.showToast(msg)
+				if (!password || !password.trim()) {
+					this.$utils.showToast(this.i18n.password || 'Please enter your password')
 					return
 				}
 				this._doLogin(user_string.trim(), password)
 			},
 			_doLogin(account, password) {
-				console.log('[LOGIN] 開始登入，帳號:', account)
-				
-				// 顯示載入提示
-				uni.showLoading({ 
-					title: this.currentLang === 'chn' ? '登入中...' : 'Logging in...', 
-					mask: true 
-				})
-				
-				// 使用統一的 API 調用方式
+				uni.showLoading({ title: this.i18n.login && this.i18n.login.label ? this.i18n.login.label[0] : '登入中...', mask: true })
 				this.$u.api.index.login(account, password).then(res => {
-					console.log('[LOGIN] API 響應:', res)
 					uni.hideLoading()
-					
-					// 檢查響應數據
 					if (res && res.code === 1 && res.data && res.data.userinfo) {
-						console.log('[LOGIN] 登入成功，Token:', res.data.userinfo.token)
-						
-						// 登入成功
-						const successMsg = (this.i18n && this.i18n.login && this.i18n.login.label && this.i18n.login.label[0]) 
-							? this.i18n.login.label[0] 
-							: (this.currentLang === 'chn' ? '登入成功' : 'Login successful')
-						this.$utils.showToast(successMsg)
-						
-						// 處理記住密碼
+						this.$utils.showToast(this.i18n.login.label[0])
 						if (this.rememberPassword) {
 							uni.setStorageSync('loginAccount', account)
 							uni.setStorageSync('loginPassword', password)
-							console.log('[LOGIN] 已保存帳號密碼到本地存儲')
 						} else {
 							uni.removeStorageSync('loginAccount')
 							uni.removeStorageSync('loginPassword')
-							console.log('[LOGIN] 已清除本地存儲的帳號密碼')
 						}
-						
-						// 保存 token
 						uni.setStorageSync('token', res.data.userinfo.token)
-						console.log('[LOGIN] Token 已保存到本地存儲')
-						
-						// 跳轉到首頁
 						setTimeout(() => {
-							console.log('[LOGIN] 準備跳轉到首頁')
 							uni.reLaunch({ url: '/pages/index/index' })
 						}, 1200)
 					} else {
-						// 登入失敗 - 顯示錯誤訊息
-						console.warn('[LOGIN] 登入失敗，響應數據:', res)
-						let errorMsg = '登入失敗'
-						if (res && res.msg) {
-							errorMsg = res.msg
-						} else if (res && res.data && typeof res.data === 'string') {
-							errorMsg = res.data
-						} else {
-							errorMsg = this.currentLang === 'chn' ? '登入失敗，請檢查帳號密碼' : 'Login failed, please check your account and password'
-						}
-						this.$utils.showToast(errorMsg)
-						console.error('[LOGIN] 登入失敗:', res)
+						const msg = (res && res.msg) ? res.msg : (this.i18n.login && this.i18n.login.codes ? this.i18n.login.codes[5] : '登入失敗')
+						this.$utils.showToast(msg)
 					}
 				}).catch(err => {
-					console.error('[LOGIN] API 調用失敗:', err)
 					uni.hideLoading()
-					
-					// 錯誤處理
-					let errorMsg = this.currentLang === 'chn' ? '網路請求失敗' : 'Network request failed'
-					
-					if (err && err.msg) {
-						errorMsg = err.msg
-					} else if (err && err.message) {
-						errorMsg = err.message
-					} else if (err && err.errMsg) {
-						if (err.errMsg.indexOf('fail') >= 0) {
-							errorMsg = this.currentLang === 'chn' ? '無法連接伺服器，請檢查網路' : 'Cannot connect to server, please check network'
-						} else if (err.errMsg.indexOf('timeout') >= 0) {
-							errorMsg = this.currentLang === 'chn' ? '請求超時' : 'Request timeout'
-						}
-					} else if (typeof err === 'string') {
-						errorMsg = err
+					let msg = '網路請求失敗'
+					if (err && err.msg) msg = err.msg
+					else if (err && err.message) msg = err.message
+					else if (err && err.errMsg) {
+						if (err.errMsg.indexOf('fail') >= 0) msg = '無法連接伺服器，請檢查網路'
+						else if (err.errMsg.indexOf('timeout') >= 0) msg = '請求超時'
 					}
-					
-					this.$utils.showToast(errorMsg)
-					console.error('[LOGIN] 登入請求失敗:', err)
+					this.$utils.showToast(msg)
 				})
-			},
-			handleBack() {
-				// 返回上一頁或關閉
-				const pages = getCurrentPages();
-				if (pages.length > 1) {
-					uni.navigateBack();
-				}
-			},
-			handleForgotPassword() {
-				// 跳轉到忘記密碼頁面
-				uni.navigateTo({
-					url: '/pages/common/resetpwd'
-				});
-			},
-			togglePassword() {
-				this.showPassword = !this.showPassword
-				console.log('[LOGIN] 密碼顯示狀態切換為:', this.showPassword ? '顯示' : '隱藏')
 			},
 			rememberPasswordFunc() {
 				this.rememberPassword = !this.rememberPassword
 				uni.setStorageSync('rememberPassword', this.rememberPassword)
-				console.log('[LOGIN] 記住密碼狀態:', this.rememberPassword ? '已勾選' : '已取消')
 			}
 		}
 	}
 </script>
 <style lang="scss" scoped>
-	@import '@/common/design-tokens.scss';
-
-	.login-container {
-		min-height: 100vh;
-		background: linear-gradient(165deg, #f8faff 0%, #e8f0fe 35%, #dee9f7 100%);
-		padding: 0;
-		position: relative;
-		box-sizing: border-box;
-	}
-
-	/* 頂部導航欄 */
-	.login-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: $spacing-lg $spacing-md $spacing-sm;
-		position: relative;
-		z-index: 10;
-	}
-
-	.header-left {
-		width: 40px;
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-	}
-
-	.back-icon {
-		font-size: $font-size-xl;
-		color: $color-primary;
-		font-weight: $font-weight-semibold;
-		transition: color $transition-fast;
-		&:hover { color: $color-primary-dark; }
-	}
-
-	.header-right {
-		display: flex;
-		align-items: center;
-		gap: $spacing-sm;
-		cursor: pointer;
-	}
-
-	.lang-text {
-		font-size: $font-size-md;
-		color: $color-text-secondary;
-		transition: color $transition-base;
-		
-		&.active {
-			color: $color-primary;
-			font-weight: $font-weight-semibold;
-		}
-	}
-
-	.lang-separator {
-		font-size: $font-size-md;
-		color: $color-text-tertiary;
-	}
-
-	/* Logo 區域 */
-	.logo-section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 40px 20px 30px 20px;
-	}
-
-	.logo-wrapper {
-		width: 120px;
-		height: 120px;
-		background: $color-surface;
-		border-radius: $radius-xl;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: $shadow-md;
-		margin-bottom: $spacing-lg;
-		padding: $spacing-md;
-		box-sizing: border-box;
-	}
-
-	.logo-image {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-
-	.welcome-text {
-		font-size: $font-size-2xl;
-		font-weight: $font-weight-semibold;
-		color: $color-primary;
-		margin-top: $spacing-md;
-		text-align: center;
-	}
-
-	/* 登入表單 */
-	.login-form {
-		padding: 0 30px 20px 30px;
-		max-width: 500px;
-		margin: 0 auto;
-	}
-
-	.input-wrapper {
-		position: relative;
-		margin-bottom: $spacing-lg;
-		background: $color-surface;
-		border-radius: $radius-md;
-		padding: 0 $spacing-md;
-		box-shadow: $shadow-sm;
-		display: flex;
-		align-items: center;
-		border: 1px solid $color-border-light;
-		transition: border-color $transition-fast, box-shadow $transition-fast;
-		&:focus-within {
-			border-color: $color-primary;
-			box-shadow: $shadow-glow;
-		}
-	}
-
-	.login-input {
-		width: 100%;
-		height: 52px;
-		font-size: $font-size-md;
-		color: $color-text-primary;
-		border: none;
-		outline: none;
-		background: transparent;
-		
-		&::placeholder {
-			color: $color-text-tertiary;
-		}
-	}
-
-	.password-toggle {
-		position: absolute;
-		right: 16px;
-		top: 50%;
-		transform: translateY(-50%);
-		cursor: pointer;
-		width: 30px;
-		height: 30px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.eye-icon {
-		font-size: 20px;
-	}
-
-	/* 記住密碼 */
-	.remember-password {
-		margin: 20px 0 30px 0;
-		display: flex;
-		align-items: center;
-		padding-left: 4px;
-	}
-
-	.checkbox-wrapper {
-		display: flex;
-		align-items: center;
-		cursor: pointer;
-	}
-
-	.checkbox {
-		width: 20px;
-		height: 20px;
-		border: 2px solid $color-primary;
-		border-radius: $radius-sm;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-right: $spacing-sm;
-		background: $color-surface;
-		transition: all $transition-fast;
-
-		&.checked {
-			background: $color-primary;
-			border-color: $color-primary;
-		}
-	}
-
-	.checkmark {
-		color: #fff;
-		font-size: $font-size-sm;
-		font-weight: $font-weight-bold;
-	}
-
-	.remember-text {
-		font-size: $font-size-sm;
-		color: $color-text-secondary;
-	}
-
-	/* 登入按鈕 */
-	.login-button-wrapper {
-		margin: 30px 0;
-	}
-
-	.login-button {
-		width: 100%;
-		height: 52px;
-		background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
-		color: #fff;
-		border: none;
-		border-radius: $radius-md;
-		font-size: $font-size-lg;
-		font-weight: $font-weight-semibold;
-		cursor: pointer;
-		transition: all $transition-base;
-		box-shadow: $shadow-glow;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		&:hover {
-			background: linear-gradient(135deg, $color-primary-dark 0%, #0D47A1 100%);
-			box-shadow: 0 8px 24px rgba(25, 118, 210, 0.35);
-		}
-
-		&:active {
-			transform: scale(0.98);
-			box-shadow: $shadow-sm;
-		}
-	}
-
-	/* 鏈接 */
-	.login-links {
-		display: flex;
-		justify-content: center;
-		gap: 20px;
-		margin: 30px 0 20px 0;
-	}
-
-	.link-text {
-		font-size: $font-size-sm;
-		color: $color-primary;
-		cursor: pointer;
-		transition: opacity $transition-fast;
-
-		&:active {
-			opacity: 0.7;
-		}
-	}
-
-	/* 免責聲明 */
-	.disclaimer {
-		text-align: center;
-		margin: 30px 0 20px 0;
-		padding: 0 20px;
-	}
-
-	.disclaimer-text {
-		font-size: 12px;
-		color: #999;
-		line-height: 1.5;
-	}
-
-	/* 版本號 */
-	.version {
-		text-align: center;
-		margin-top: 40px;
-		padding-bottom: 30px;
-	}
-
-	.version-text {
-		font-size: 12px;
-		color: #999;
-	}
-
-	/* 彈出層列表 */
+	// 弹出层列表
 	.popup-list {
 		.popup-list-item {
 			height: 96rpx;

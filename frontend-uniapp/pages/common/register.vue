@@ -1,8 +1,9 @@
 <template>
 	<view class="Body">
 		<view class="PageBox">
-			<view class="logo">
-				{{i18n.home.label[0]}}
+			<view class="logo logo-row">
+				<text class="logo-title">{{i18n.home.label[0]}}</text>
+				<text class="back-login" @click="dumprun('/pages/common/login')" @tap="dumprun('/pages/common/login')">{{i18n.register.label[1]}}</text>
 			</view>
 			<view class="ScrollBoxre loginpanel">
 				<view class="regType" v-if="regtype == 1">
@@ -157,9 +158,9 @@
 						@click="handleRegisterClick" 
 						@tap="handleRegisterClick"
 						style="cursor: pointer; opacity: isSubmitting ? 0.6 : 1; transition: all 0.2s;">
-						{{isSubmitting ? '注册中...' : i18n.register.text[4]}}
+						{{ isSubmitting ? (i18n.register.text[3] || '注册中...') : i18n.register.text[4] }}
 					</view>
-					<text class="href" @click="dumprun('/pages/common/login')" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[2]}}</text>
+					<text class="href" @click="dumprun('/pages/common/login')" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[1]}}</text>
 				</view>
 				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
 					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
@@ -253,7 +254,9 @@
 				
 				// 验证邮箱/手机号
 				if(!usestring || usestring.trim() === ''){
-					const errorMsg = regtype == 1 ? '请输入邮箱' : '请输入手机号'
+					const errorMsg = regtype == 1
+						? (i18n.register && i18n.register.placeholder && i18n.register.placeholder[0] ? i18n.register.placeholder[0] : '请输入邮箱')
+						: (i18n.register2 && i18n.register2[2] ? i18n.register2[2] : '请输入手机号')
 					console.warn('[REGISTER] ❌ 驗證失敗: 帳號為空')
 					console.log('[REGISTER] 準備顯示錯誤提示:', errorMsg)
 					if (this.$utils && this.$utils.showToast) {
@@ -275,7 +278,7 @@
 						const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 						if(!emailRegex.test(usestring)){
 							console.warn('[REGISTER] ❌ 驗證失敗: 郵箱格式錯誤', usestring)
-							const errorMsg = '请输入正确的邮箱格式'
+							const errorMsg = (i18n.register && i18n.register.placeholder && i18n.register.placeholder[7]) ? i18n.register.placeholder[7] : 'Invalid Email address'
 							if (this.$utils && this.$utils.showToast) {
 								this.$utils.showToast(errorMsg)
 							} else {
@@ -285,7 +288,7 @@
 						}
 					} else if(!this.$u.test.email(usestring)){
 						console.warn('[REGISTER] ❌ 驗證失敗: 郵箱格式錯誤', usestring)
-						const errorMsg = '请输入正确的邮箱格式'
+						const errorMsg = (i18n.register && i18n.register.placeholder && i18n.register.placeholder[7]) ? i18n.register.placeholder[7] : 'Invalid Email address'
 						if (this.$utils && this.$utils.showToast) {
 							this.$utils.showToast(errorMsg)
 						} else {
@@ -301,7 +304,7 @@
 						// 簡單的手機號驗證
 						if(!/^\d+$/.test(usestring) || usestring.length < 6){
 							console.warn('[REGISTER] ❌ 驗證失敗: 手機號格式錯誤', usestring)
-							const errorMsg = '请输入正确的手机号'
+							const errorMsg = (i18n.register && i18n.register.placeholder && i18n.register.placeholder[9]) ? i18n.register.placeholder[9] : 'Please enter a valid phone number'
 							if (this.$utils && this.$utils.showToast) {
 								this.$utils.showToast(errorMsg)
 							} else {
@@ -311,7 +314,7 @@
 						}
 					} else if(!this.$u.test.number(usestring) || usestring.length < 6){
 						console.warn('[REGISTER] ❌ 驗證失敗: 手機號格式錯誤', usestring)
-						const errorMsg = '请输入正确的手机号'
+						const errorMsg = (i18n.register && i18n.register.placeholder && i18n.register.placeholder[9]) ? i18n.register.placeholder[9] : 'Please enter a valid phone number'
 						if (this.$utils && this.$utils.showToast) {
 							this.$utils.showToast(errorMsg)
 						} else {
@@ -325,7 +328,7 @@
 				//判断密码
 				if(!password || password.length < 6){
 					console.warn('[REGISTER] ❌ 驗證失敗: 密碼長度不足', password ? password.length : 0)
-					const errorMsg = '密码不能低于6位'
+					const errorMsg = (i18n.register && i18n.register.placeholder && i18n.register.placeholder[8]) ? i18n.register.placeholder[8] : '密码不能低于6位'
 					if (this.$utils && this.$utils.showToast) {
 						this.$utils.showToast(errorMsg)
 					} else {
@@ -370,7 +373,7 @@
 				
 				// 显示加载提示
 				uni.showLoading({
-					title: '注册中...',
+					title: (this.i18n && this.i18n.register && this.i18n.register.text && this.i18n.register.text[3]) ? this.i18n.register.text[3] : '注册中...',
 					mask: true
 				});
 				
@@ -445,7 +448,7 @@
 					this.isSubmitting = false;
 					
 					// 错误处理
-					let errorMsg = '注册失败，请稍后重试';
+					let errorMsg = (this.i18n && this.i18n.register && this.i18n.register.codes && this.i18n.register.codes[5]) ? this.i18n.register.codes[5] : '注册失败，请稍后重试';
 					if(err && err.msg){
 						errorMsg = err.msg;
 					} else if(err && err.message){
@@ -630,6 +633,25 @@
 	    text-align: left;
 	    margin-top: 30px;
 	    margin-left: 30px
+	}
+	
+	.logo.logo-row {
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    padding-right: 20px;
+	    box-sizing: border-box
+	}
+	
+	.logo-title {
+	    flex: 0 0 auto;
+	}
+	
+	.back-login {
+	    font-size: 14px;
+	    color: #0076fa;
+	    cursor: pointer;
+	    flex-shrink: 0;
 	}
 	
 	.loginpanel {

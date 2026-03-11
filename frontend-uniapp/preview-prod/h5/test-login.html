@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>登入測試</title>
+<style>
+body{font-family:sans-serif;max-width:400px;margin:50px auto;padding:20px;background:#13171a;color:#fff}
+input,button{display:block;width:100%;padding:12px;margin:10px 0;border-radius:8px;border:1px solid #333;background:#191c23;color:#fff;font-size:16px}
+button{background:#0076fa;border:none;cursor:pointer}
+button:disabled{opacity:0.5;cursor:not-allowed}
+#msg{margin-top:15px;padding:10px;border-radius:5px;min-height:20px}
+.success{background:#28a745;color:#fff}
+.error{background:#dc3545;color:#fff}
+</style>
+</head>
+<body>
+<h2>登入測試頁</h2>
+<p>此頁面直接呼叫後端 API，繞過前端建置的 API 設定</p>
+<input type="text" id="account" placeholder="帳號 (testuser@hkex-test.com)" value="testuser@hkex-test.com">
+<input type="password" id="password" placeholder="密碼" value="Test123456">
+<button id="btn">登入</button>
+<div id="msg"></div>
+<script>
+// 使用當前站點相對路徑，避免跨域
+var API = (window.location.origin || '') + '/index.php/api';
+function msg(t, type) {
+  var m = document.getElementById('msg');
+  m.textContent = t;
+  m.className = type || '';
+}
+document.getElementById('btn').onclick = function() {
+  var account = document.getElementById('account').value.trim();
+  var password = document.getElementById('password').value;
+  if (!account || !password) {
+    msg('請填寫帳號和密碼', 'error');
+    return;
+  }
+  msg('登入中...');
+  var btn = document.getElementById('btn');
+  btn.disabled = true;
+  
+  var fd = new FormData();
+  fd.append('account', account);
+  fd.append('password', password);
+  fd.append('lang', 'eng');
+  
+  fetch(API + '/user/login', {
+    method: 'POST',
+    body: fd,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.code === 1 && res.data && res.data.userinfo) {
+      var token = res.data.userinfo.token;
+      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
+      msg('登入成功！正在跳轉...', 'success');
+      setTimeout(function() {
+        window.location.href = '/h5/#/pages/index/index';
+      }, 800);
+    } else {
+      msg('登入失敗: ' + (res.msg || '未知錯誤'), 'error');
+      btn.disabled = false;
+    }
+  })
+  .catch(function(err) {
+    msg('請求失敗: ' + err.message, 'error');
+    btn.disabled = false;
+  });
+};
+</script>
+</body>
+</html>
