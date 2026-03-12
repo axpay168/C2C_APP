@@ -9,8 +9,8 @@ Vue.use(Vuex)
 import Socketio from '@/js_sdk/hyoga-uni-socket_io/uni-socket.io.js';
 const store = new Vuex.Store({
 	state: {
-		baseUrl: process.env.NODE_ENV === 'development' ? '/api' : (typeof window !== 'undefined' && window.location ? window.location.origin + '/index.php/api' : 'https://mxtrx.top/index.php/api'),
-		baseDomain: process.env.NODE_ENV === 'development' ? '' : (typeof window !== 'undefined' && window.location ? window.location.origin : 'https://mxtrx.top'),
+		baseUrl: process.env.NODE_ENV === 'development' ? '/api' : 'http://68.64.180.142:8080/index.php/api',
+		baseDomain: process.env.NODE_ENV === 'development' ? '' : 'http://68.64.180.142:8080',
 		lang: uni.getStorageSync('lang') || 'eng',
 		token: uni.getStorageSync('token') || '',
 		user: uni.getStorageSync('user') || {},
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
 				const {
 					_this
 				} = params
-				_this.$u.api.user.login(params.data).then(res => {
+				_this.$u.api.index.login(params.data.account, params.data.password).then(res => {
 					//保存token至缓存
 					commit('saveUser', res)
 					resole(true)
@@ -35,14 +35,33 @@ const store = new Vuex.Store({
 			})
 		},
 		startSocket({commit,state}){
-			return new Promise((resole, reject) => {
-				state.socket = Socketio(state.baseDomain, {
-					transports: [ 'websocket', 'polling' ],
-					reconnection: true
-				});
-				state.socket.on("connect",(socket)=>{
-					resole(true)
-				})
+			return new Promise((resolve) => {
+				try {
+					if (state.socket) {
+						resolve(true)
+						return
+					}
+					const base = state.baseDomain || (typeof window !== 'undefined' && window.location && window.location.origin ? window.location.origin : '')
+					if (!base) {
+						resolve(false)
+						return
+					}
+					let settled = false
+					const done = (ok) => {
+						if (settled) return
+						settled = true
+						resolve(!!ok)
+					}
+					state.socket = Socketio(base, {
+						transports: [ 'websocket', 'polling' ],
+						reconnection: true
+					})
+					state.socket.on('connect', () => done(true))
+					state.socket.on('connect_error', () => done(false))
+					setTimeout(() => done(false), 5000)
+				} catch (e) {
+					resolve(false)
+				}
 			})
 		}
 	},

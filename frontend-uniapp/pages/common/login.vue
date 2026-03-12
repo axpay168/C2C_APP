@@ -118,18 +118,17 @@
 		},
 		methods: {
 			setDefaultLang() {
+				if (!this.langs || !Array.isArray(this.langs)) return
 				let langsData = this.langs.map(el => {
-					el.selected = false
+					if (el && typeof el === 'object') el.selected = false
 					return el
 				})
 				const lang = (this.$store.state.lang || 'eng').replace(/^en$/, 'eng')
-				const has = langsData.findIndex(item => item.value == lang)
-				if (has >= 0) {
+				const has = langsData.findIndex(item => item && item.value == lang)
+				if (has >= 0 && langsData[has]) {
 					langsData[has].selected = true
-				} else {
-					if (langsData && langsData.length > 0) {
-						langsData[0].selected = true
-					}
+				} else if (langsData.length > 0 && langsData[0]) {
+					langsData[0].selected = true
 				}
 				this.langs = langsData
 			},

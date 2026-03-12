@@ -56,5 +56,12 @@ class Real extends Model
         return $value === '' ? null : ($value && !is_numeric($value) ? strtotime($value) : $value);
     }
 
+    /**
+     * 關聯用戶（用於顯示註冊郵箱或電話）
+     */
+    public function user()
+    {
+        return $this->belongsTo('User', 'user_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 
 }

@@ -3,7 +3,7 @@
 		<div class="Main Site" style="overflow: visible;">
 			<div class="van-nav-bar van-nav-bar--fixed">
 				<div class="van-nav-bar__content">
-					<div class="van-nav-bar__left"><i
+					<div class="van-nav-bar__left" @click="back"><i
 							class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
 					<div class="van-nav-bar__title van-ellipsis"></div>
 				</div>
@@ -20,10 +20,10 @@
 				<div class="tool">
 					<table style="text-align: center; width: 95%;color: #fff;">
 						<tr>
-							<td> {{common.sell.label[0]}}:{{userinfo.money}} USDT </td>
+							<td> {{common.sell.label[0]}}:{{userinfo.money != null ? userinfo.money : '0'}} USDT </td>
 						</tr>
 						<tr>
-							<td> {{common.wallet.default[22]}}:{{(userinfo.money * userinfo.baobl).toFixed(2)}} USDT</td>
+							<td> {{common.wallet.default[22]}}:{{((userinfo.money || 0) * (userinfo.baobl || 0)).toFixed(2)}} USDT</td>
 						</tr>
 						<tr>
 							<td> {{address}} </td>
@@ -102,7 +102,8 @@
 				fileList2: [],
 				fileurl2:'',
 				address:'',
-				isbind:0
+				isbind:0,
+				submitting: false
 			};
 		},
 		onLoad(options) {
@@ -120,50 +121,59 @@
 				const token = uni.getStorageSync('token')
 				let that = this
 				this.$u.api.index.getUserinfo(token).then(res => {
+					if (!res || !res.data) return
 					this.userinfo = res.data
-					if(res.data.bank.length > 0){
+					if (res.data.bank && res.data.bank.length > 0) {
 						that.bankname = res.data.bank[0].bank_name
 						that.realname = res.data.bank[0].name
 						that.banknum = res.data.bank[0].card_no
 						that.mobile = res.data.bank[0].bank_deposit
 						that.isbind = 1
-					}else{
+					} else {
 						that.isbind = 0
 					}
-				})
-				// const token = uni.getStorageSync('token')
+				}).catch(() => { that.userinfo = { money: 0, baobl: 0 } })
 				this.$u.api.index.cointype(token).then(res => {
-					// this.cointype = res.data[0].coin_type
-					this.address = res.data[0].caddre
-				})
+					if (res && res.data && res.data.length > 0 && res.data[0]) {
+						this.address = res.data[0].caddre || ''
+					}
+				}).catch(() => {})
 			},
 			okopen(data){
-				this.$utils.showToast(this.common.common3[0])
-				this.fileurl = data.data.url
-				console.log(data.data.url)
+				this.$utils.showToast(this.common.common3 && this.common.common3[0] ? this.common.common3[0] : 'Uploaded')
+				this.fileurl = (data && data.data && data.data.url) ? data.data.url : ''
 			},
 			okopen1(data){
-				this.$utils.showToast(this.common.common3[0])
-				this.fileurl1 = data.data.url
-				console.log(data.data.url)
+				this.$utils.showToast(this.common.common3 && this.common.common3[0] ? this.common.common3[0] : 'Uploaded')
+				this.fileurl1 = (data && data.data && data.data.url) ? data.data.url : ''
 			},
 			okopen2(data){
-				this.$utils.showToast(this.common.common3[0])
-				this.fileurl2 = data.data.url
-				console.log(data.data.url)
+				this.$utils.showToast(this.common.common3 && this.common.common3[0] ? this.common.common3[0] : 'Uploaded')
+				this.fileurl2 = (data && data.data && data.data.url) ? data.data.url : ''
 			},
 			tijiao(){
-				// if(this.isbind == 0){
-					const token = uni.getStorageSync('token')
-					this.$u.api.index.bind_real(token,this.fileurl,this.fileurl1,this.fileurl2).then(res => {
-						this.$utils.showToast(res.msg)
-					})
-				// }else{
-					// const token = uni.getStorageSync('token')
-					// this.$u.api.index.updete_bank(token,this.realname,this.banknum,this.mobile,this.bankname,this.userinfo.bank[0].id).then(res => {
-						// this.$utils.showToast(res.msg)
-					// })
-				// }
+				if (this.submitting) return
+				const token = uni.getStorageSync('token')
+				if (!token) {
+					this.$utils.showToast(this.common.common4 && this.common.common4[8] ? this.common.common4[8] : 'Please login first')
+					return
+				}
+				if (!this.fileurl || !this.fileurl1 || !this.fileurl2) {
+					this.$utils.showToast('Please upload all 3 images (ID card + 2 proofs)')
+					return
+				}
+				this.submitting = true
+				uni.showLoading({ title: '...' })
+				this.$u.api.index.bind_real(token, this.fileurl, this.fileurl1, this.fileurl2).then(res => {
+					uni.hideLoading()
+					this.submitting = false
+					this.$utils.showToast(res.msg || (this.common.common4 && this.common.common4[1] ? this.common.common4[1] : 'Success'))
+					setTimeout(() => { uni.navigateBack({ fail: () => { uni.switchTab({ url: '/pages/index/index' }) } }) }, 1500)
+				}).catch(err => {
+					uni.hideLoading()
+					this.submitting = false
+					this.$utils.showToast(err && err.msg ? err.msg : 'Submit failed')
+				})
 			},
 			back() {
 				// const pages = getCurrentPages();

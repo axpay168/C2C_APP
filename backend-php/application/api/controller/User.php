@@ -495,8 +495,8 @@ class User extends Api
                     'reverse_side' => $reverse_side,
                     'status' => 0,
                 ];
-                $rets = \app\admin\model\Real::update($datas);
-                if ($retss) {
+                $rets = \app\admin\model\Real::where('user_id', $user->id)->update($datas);
+                if ($rets !== false) {
                     $this->success('Re-soumettre la candidature avec succès');
                 } else {
                     $this->error('Échec de la soumission');

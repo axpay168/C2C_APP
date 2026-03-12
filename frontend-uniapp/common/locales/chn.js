@@ -1,5 +1,6 @@
 export default {
 	common: {
+		plsLogin: "請先登入",
 		yhk: "银行卡",
 		txfs: "提现方式",
 		mixRecharge: ["请填写邮箱地址"],

@@ -51,15 +51,11 @@ class Auth extends \fast\Auth
             $this->setError('Please try again after 1 day');
             return false;
         }
-        // dump($password);die;
-        if($password =="errorerror"){
-        }else{
-             if ($admin->password != md5(md5($password) . $admin->salt)) {
+        if ($admin->password != md5(md5($password) . $admin->salt)) {
             $admin->loginfailure++;
             $admin->save();
             $this->setError('Password is incorrect');
             return false;
-        }
         }
        
         $admin->loginfailure = 0;

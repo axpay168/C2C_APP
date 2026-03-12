@@ -1,5 +1,6 @@
 export default {
 	common: {
+		plsLogin: "Please login first",
 		yhk: "BankCard",
 		txfs: "Way",
 		mixRecharge: ["Please fill in your email address"],

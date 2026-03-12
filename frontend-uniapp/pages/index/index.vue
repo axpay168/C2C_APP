@@ -73,9 +73,9 @@
 					</u-notice-bar>
 				</div>
 
-				<!-- Banner 輪播 -->
+				<!-- Banner 輪播：高度隨視口，不寫死 -->
 				<view class="home-banner">
-					<u-swiper :list="banner_list" border-radius="8" height="200" indicator-pos="bottomRight"
+					<u-swiper :list="banner_list" border-radius="8" :height="bannerHeight" indicator-pos="bottomRight"
 						:interval="3000" img-mode="aspectFill">
 					</u-swiper>
 				</view>
@@ -173,25 +173,21 @@
 				ethprice:0,
 				zf1:0,
 				zf2:0,
-				zf3:0
+				zf3:0,
+				timerRandom: null,
+				timerEms: null
 			};
 		},
 		mounted() {
 
 		},
 		onLoad(options) {
-			// alert(navigator.userAgent)
 			const {
 				invid
 			} = options
 			this.invid = invid
 			this.os = this.$u.os()
-			// uni.setNavigationBarTitle({
-			// 	title: 'MSC'
-			// })
-			//设置默认语言
 			this.setDefaultLang()
-			// 先檢查登入狀態，未登入則跳轉到登入頁
 			const token = uni.getStorageSync('token') || ""
 			if (!token) {
 				uni.redirectTo({
@@ -199,72 +195,82 @@
 				})
 				return
 			}
-			// this.get()
 			this.getBanner()
 			this.getNocar()
 			let that = this
-			that.randomNumber = Math.floor(Math.random() * 10000) + 1;
-			setInterval(function() {
-				that.randomNumber = Math.floor(Math.random() * 10000) + 1;
-				// console.log(this.randomNumber)
-			}, 5000);
+			that.randomNumber = Math.floor(Math.random() * 10000) + 1
+			this.timerRandom = setInterval(function() {
+				that.randomNumber = Math.floor(Math.random() * 10000) + 1
+			}, 5000)
 			this.$u.api.index.shoujia().then(res => {
 				if (res && res.data && res.data.shoujia) {
 					this.bili = res.data.shoujia
 				}
-			}).catch(err => {
-				console.warn('shoujia failed:', err)
-			})
+			}).catch(() => {})
 		},
-			onShow() {
-			// uni.hideTabBar()
+		onShow() {
 			this.checkIsLogin()
-			 this.getList()
-				const apiBase = (typeof window !== 'undefined' && window.location ? window.location.origin : 'https://mxtrx.top') + '/index.php/api';
-				setInterval(() => {
-		uni.request({
+			this.getList()
+			this.clearTimers('ems')
+			const apiBase = this.getApiBase()
+			const that = this
+			this.timerEms = setInterval(() => {
+				uni.request({
 					url: apiBase + "/Ems/updateData",
 					method: "GET",
 					success: (res) => {
-						// 檢查響應數據結構是否正確
 						if (res.data && res.data.code == 1 && res.data.data && Array.isArray(res.data.data) && res.data.data.length >= 3) {
-							// 安全訪問數組元素
 							if (res.data.data[0]) {
-								console.log(res.data.data[0]['price'])
-								this.btcprice = res.data.data[0].price
+								that.btcprice = res.data.data[0].price
 								if (res.data.data[0].zf !== undefined) {
-									this.zf1 = res.data.data[0].zf.toFixed(3)
+									that.zf1 = res.data.data[0].zf.toFixed(3)
 								}
 							}
 							if (res.data.data[1]) {
-								this.ethprice = res.data.data[1].price
+								that.ethprice = res.data.data[1].price
 								if (res.data.data[1].zf !== undefined) {
-									this.zf2 = res.data.data[1].zf.toFixed(3)
+									that.zf2 = res.data.data[1].zf.toFixed(3)
 								}
 							}
 							if (res.data.data[2]) {
-								this.xrpprice = res.data.data[2].price
+								that.xrpprice = res.data.data[2].price
 								if (res.data.data[2].zf !== undefined) {
-									this.zf3 = res.data.data[2].zf.toFixed(3)
+									that.zf3 = res.data.data[2].zf.toFixed(3)
 								}
 							}
-						//	this.zongliang = res.data.message[0].quotation[0].volume
-							// setTimeout(() => {
-							// 	this.klineo()
-							// }, 1000)
-						//	this.startSocket()
 						}
-						//this.boshu[0]
 					}
 				})
-					console.log("setInterval");
-				}, 1000);
-			// this.getteam()
-			// this.show = false
-			// alert(this.$store.state.lang)
+			}, 5000)
 			this.lang = uni.getStorageSync('lang') || 'chn'
 		},
+		onHide() {
+			this.clearTimers()
+		},
+		beforeDestroy() {
+			this.clearTimers()
+		},
 		methods: {
+			getApiBase() {
+				if (typeof this.$store !== 'undefined' && this.$store.state.baseUrl) {
+					return this.$store.state.baseUrl.replace(/\/$/, '')
+				}
+				return (typeof window !== 'undefined' && window.location && window.location.origin ? window.location.origin : 'http://68.64.180.142:8080') + '/index.php/api'
+			},
+			clearTimers(only) {
+				if (only !== 'ems') {
+					if (this.timerRandom) {
+						clearInterval(this.timerRandom)
+						this.timerRandom = null
+					}
+				}
+				if (only !== 'random') {
+					if (this.timerEms) {
+						clearInterval(this.timerEms)
+						this.timerEms = null
+					}
+				}
+			},
 			// 获取首页轮播图
 			getBanner() {
 				this.$u.api.index.get_about().then(res => {
@@ -399,16 +405,13 @@
 				let that = this;
 				let now = parseInt((new Date()).valueOf() / 1000);
 				let start = now - (3600 * 24 * 7);
-				const apiBase = (typeof window !== 'undefined' && window.location ? window.location.origin : 'https://mxtrx.top') + '/index.php/api';
+				const apiBase = this.getApiBase()
 				uni.request({
 					url: apiBase + "/Ems/updateData",
 					method: "GET",
 					success: (res) => {
-						// 檢查響應數據結構是否正確
 						if (res.data && res.data.code == 1 && res.data.data && Array.isArray(res.data.data) && res.data.data.length >= 3) {
-							// 安全訪問數組元素
 							if (res.data.data[0]) {
-								console.log(res.data.data[0]['price'])
 								this.btcprice = res.data.data[0].price
 								if (res.data.data[0].zf !== undefined) {
 									this.zf1 = res.data.data[0].zf
@@ -431,10 +434,7 @@
 							// setTimeout(() => {
 							// 	this.klineo()
 							// }, 1000)
-						//	this.startSocket()
 						}
-						//this.boshu[0]
-						console.log(this.boshu)
 					}
 				})
 			},
@@ -717,6 +717,14 @@
 		computed: {
 			common() {
 				return this.$t("common")
+			},
+			bannerHeight() {
+				if (typeof window === 'undefined') return 200
+				const h = window.innerHeight || 600
+				const w = window.innerWidth || 375
+				const vh = Math.min(Math.max(h * 0.22, 140), 240)
+				const vw = w * 0.5
+				return Math.round(Math.min(vh, vw))
 			}
 		},
 		watch: {
@@ -807,29 +815,32 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 0.4rem 0;
+		padding: 0.5rem 0.15rem;
 		box-sizing: border-box;
+		gap: 0.4rem;
 	}
 	.menu-icon-wrap {
-		width: 2.2rem;
-		height: 2.2rem;
+		width: clamp(2rem, 10vw, 2.6rem);
+		height: clamp(2rem, 10vw, 2.6rem);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-bottom: 0.35rem;
 		background: rgba(52,120,190,0.25);
 		border-radius: 0.4rem;
+		flex-shrink: 0;
 	}
 	.menu-icon {
-		width: 1.4rem;
-		height: 1.4rem;
+		width: 65%;
+		height: 65%;
 		object-fit: contain;
 	}
 	.menu-text {
-		font-size: 0.55rem;
+		font-size: clamp(0.5rem, 2.2vw + 0.4rem, 0.7rem);
 		color: #fff;
-		line-height: 1.2;
+		line-height: 1.3;
 		text-align: center;
+		word-break: break-word;
+		min-height: 1.5em;
 	}
 
 	.home-market {
@@ -837,29 +848,31 @@
 		background: #1e2329;
 		border-radius: 0.5rem;
 		margin: 0.6rem 0.8rem 0;
-		padding: 0.7rem 0.4rem;
+		padding: 0.7rem 0.5rem;
 		color: #fff;
+		gap: 0.5rem;
 	}
 	.market-item {
 		flex: 1;
+		min-width: 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 0.2rem;
+		gap: 0.25rem;
 	}
 	.market-pair {
-		font-size: 0.6rem;
+		font-size: clamp(0.55rem, 2vw + 0.4rem, 0.7rem);
 		color: #848e9c;
 		font-weight: 600;
 	}
 	.market-price {
-		font-size: 0.75rem;
+		font-size: clamp(0.65rem, 2.2vw + 0.4rem, 0.85rem);
 		font-weight: 600;
 		color: #fff;
 	}
 	.market-change {
-		font-size: 0.6rem;
+		font-size: clamp(0.55rem, 2vw + 0.4rem, 0.7rem);
 		font-weight: 600;
 	}
 	.market-change.up { color: #00c087; }
@@ -893,26 +906,28 @@
 	}
 	.coin-table {
 		width: 100%;
-		font-size: 0.65rem;
+		table-layout: fixed;
+		font-size: clamp(0.6rem, 2vw + 0.35rem, 0.75rem);
 		border-collapse: collapse;
 	}
 	.coin-row {
-		height: 2.4rem;
+		min-height: 2.6rem;
+		height: 2.6rem;
 		border-bottom: 1px solid rgba(255,255,255,0.06);
 	}
 	.coin-row:last-child { border-bottom: none; }
-	.td-fav { width: 1.2rem; padding: 0 0.2rem; vertical-align: middle; }
-	.fav-icon { width: 0.9rem; height: 0.9rem; display: block; }
-	.td-icon { width: 1.5rem; padding: 0 0.3rem; vertical-align: middle; }
-	.coin-img { width: 1.2rem; height: 1.2rem; display: block; }
-	.td-name { font-size: 0.7rem; font-weight: 600; color: #fff; width: 2.2rem; vertical-align: middle; }
-	.td-price { font-size: 0.7rem; color: #fff; text-align: right; padding-right: 0.5rem; vertical-align: middle; }
+	.td-fav { width: 2.2em; min-width: 1.2rem; padding: 0 0.25rem; vertical-align: middle; }
+	.fav-icon { width: 1rem; height: 1rem; max-width: 100%; display: block; }
+	.td-icon { width: 2.5em; min-width: 1.5rem; padding: 0 0.3rem; vertical-align: middle; }
+	.coin-img { width: 1.25rem; height: 1.25rem; max-width: 100%; display: block; }
+	.td-name { font-size: 1em; font-weight: 600; color: #fff; min-width: 2.5em; vertical-align: middle; }
+	.td-price { font-size: 1em; color: #fff; text-align: right; padding-right: 0.5rem; vertical-align: middle; word-break: break-all; }
 	.td-change {
-		font-size: 0.65rem;
+		font-size: 1em;
 		font-weight: 600;
 		text-align: right;
 		vertical-align: middle;
-		width: 2rem;
+		min-width: 2.5em;
 	}
 	.td-change.up { color: #00c087; }
 	.td-change.down { color: #f6465d; }

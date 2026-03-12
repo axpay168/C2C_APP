@@ -5,12 +5,9 @@
 		// 此处globalData为了演示其作用，不是uView框架的一部分
 		globalData: {},
 		onLaunch() {
-			//设置语言
 			this.$utils.setTabbar(this)
-			//自定义缓存清理方法，应放在onLaunch最上方
 			this.clearStorage()
-			//开启socket
-			this.$store.dispatch("startSocket")
+			this.$store.dispatch('startSocket').catch(() => {})
 		},
 		methods: {
 			clearStorage() {
@@ -66,11 +63,17 @@
 	// 	font-family: 'puhui';
 	// 	src: url('static/puhui.ttf');
 	// }
+	/* 移動端響應式根字體：隨視口縮放，不寫死尺寸 */
+	html {
+		font-size: clamp(12px, 2.8vw + 10px, 16px);
+		-webkit-text-size-adjust: 100%;
+	}
 	page,
 	body,
 	html {
-		// padding-top: env(safe-area-inset-top);
 		font-family: Din;
-		background-color: #13171a
+		background-color: #13171a;
+		box-sizing: border-box;
 	}
+	*, *::before, *::after { box-sizing: border-box; }
 </style>

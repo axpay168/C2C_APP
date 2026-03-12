@@ -173,74 +173,81 @@
 				ethprice:0,
 				zf1:0,
 				zf2:0,
-				zf3:0
+				zf3:0,
+				timerRandom: null,
+				timerEms: null
 			};
 		},
 		mounted() {
 
 		},
 		onLoad(options) {
-			// alert(navigator.userAgent)
-			const {
-				invid
-			} = options
+			const { invid } = options
 			this.invid = invid
 			this.os = this.$u.os()
-			// uni.setNavigationBarTitle({
-			// 	title: 'MSC'
-			// })
-			//设置默认语言
 			this.setDefaultLang()
-			// this.get()
 			this.getBanner()
 			this.getNocar()
 			let that = this
-			that.randomNumber = Math.floor(Math.random() * 10000) + 1;
-			setInterval(function() {
-				that.randomNumber = Math.floor(Math.random() * 10000) + 1;
-				// console.log(this.randomNumber)
-			}, 5000);
+			that.randomNumber = Math.floor(Math.random() * 10000) + 1
+			this.timerRandom = setInterval(function() {
+				that.randomNumber = Math.floor(Math.random() * 10000) + 1
+			}, 5000)
 			this.$u.api.index.shoujia().then(res => {
-				this.bili = res.data.shoujia
-			})
+				if (res && res.data && res.data.shoujia) this.bili = res.data.shoujia
+			}).catch(() => {})
 		},
 		onShow() {
-			// uni.hideTabBar()
 			this.checkIsLogin()
-			 this.getList()
-				const apiBase = (typeof window !== 'undefined' && window.location ? window.location.origin : 'https://mxtrx.top') + '/index.php/api';
-				setInterval(() => {
-		uni.request({
+			this.getList()
+			this.clearTimers('ems')
+			const apiBase = this.getApiBase()
+			const that = this
+			this.timerEms = setInterval(() => {
+				uni.request({
 					url: apiBase + "/Ems/updateData",
 					method: "GET",
 					success: (res) => {
-						console.log(res.data.data[0]['price'])
-						if (res.data.code == 1) {
-							//that.showQuotationList = res.data.message[0].quotation;
-							this.btcprice = res.data.data[0].price
-							this.zf1 = res.data.data[0].zf.toFixed(3)
-							this.ethprice = res.data.data[1].price
-							this.zf2 = res.data.data[1].zf.toFixed(3)
-							this.xrpprice = res.data.data[2].price
-							this.zf3 = res.data.data[2].zf.toFixed(3)
-
-						//	this.zongliang = res.data.message[0].quotation[0].volume
-							// setTimeout(() => {
-							// 	this.klineo()
-							// }, 1000)
-						//	this.startSocket()
+						if (res.data && res.data.code == 1 && res.data.data && Array.isArray(res.data.data) && res.data.data.length >= 3) {
+							if (res.data.data[0]) {
+								that.btcprice = res.data.data[0].price
+								if (res.data.data[0].zf !== undefined) that.zf1 = res.data.data[0].zf.toFixed(3)
+							}
+							if (res.data.data[1]) {
+								that.ethprice = res.data.data[1].price
+								if (res.data.data[1].zf !== undefined) that.zf2 = res.data.data[1].zf.toFixed(3)
+							}
+							if (res.data.data[2]) {
+								that.xrpprice = res.data.data[2].price
+								if (res.data.data[2].zf !== undefined) that.zf3 = res.data.data[2].zf.toFixed(3)
+							}
 						}
-						//this.boshu[0]
 					}
 				})
-					console.log("setInterval");
-				}, 1000);
-			// this.getteam()
-			// this.show = false
-			// alert(this.$store.state.lang)
+			}, 5000)
 			this.lang = uni.getStorageSync('lang') || 'chn'
 		},
+		onHide() {
+			this.clearTimers()
+		},
+		beforeDestroy() {
+			this.clearTimers()
+		},
 		methods: {
+			getApiBase() {
+				if (typeof this.$store !== 'undefined' && this.$store.state.baseUrl) {
+					return this.$store.state.baseUrl.replace(/\/$/, '')
+				}
+				return (typeof window !== 'undefined' && window.location && window.location.origin ? window.location.origin : 'http://68.64.180.142:8080') + '/index.php/api'
+			},
+			clearTimers(only) {
+				if (only !== 'ems') {
+					if (this.timerRandom) { clearInterval(this.timerRandom); this.timerRandom = null }
+				}
+				if (only !== 'random') {
+					if (this.timerEms) { clearInterval(this.timerEms); this.timerEms = null }
+				}
+			},
 			// 获取首页轮播图
 			getBanner() {
 				this.$u.api.index.get_about().then(res => {

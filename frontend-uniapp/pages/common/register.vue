@@ -7,10 +7,9 @@
 			</view>
 			<view class="ScrollBoxre loginpanel">
 				<view class="regType" v-if="regtype == 1">
-					<h2>{{i18n.register2[0]}}</h2>
-					<view style="margin: 0px auto; text-align: right; width: 50%;">
-						<button type="button" @click="regtype = 2" class="van-button van-button--default van-button--mini"
-							style="font-size: 20px; color: rgb(255, 255, 255); background: rgb(19, 23, 26); border-color: rgb(19, 23, 26);">
+					<h2 class="reg-type-title">{{i18n.register2[0]}}</h2>
+					<view class="reg-type-switch">
+						<button type="button" @click="regtype = 2" class="van-button van-button--default van-button--mini reg-type-btn">
 							<view class="van-button__content">
 								<span class="van-button__text">{{i18n.register2[1]}}</span>
 							</view>
@@ -18,14 +17,13 @@
 					</view>
 				</view>
 				<view class="regType" v-if="regtype == 2">
-					<button type="button" @click="regtype = 1" class="van-button van-button--default van-button--mini"
-						style="font-size: 20px; color: rgb(255, 255, 255); background: rgb(19, 23, 26); border-color: rgb(19, 23, 26);">
+					<button type="button" @click="regtype = 1" class="van-button van-button--default van-button--mini reg-type-btn">
 						<view class="van-button__content">
 							<span class="van-button__text">{{i18n.register2[0]}}</span>
 						</view>
 					</button>
-					<view style="margin: 0px auto; text-align: right; width: 50%;">
-						<h2>{{i18n.register2[1]}}</h2>
+					<view class="reg-type-switch">
+						<h2 class="reg-type-title">{{i18n.register2[1]}}</h2>
 					</view>
 				</view>
 
@@ -54,7 +52,7 @@
 						<view class="van-field__body">
 							<view class="van-field__control van-field__control--custom">
 								<input :placeholder="i18n.register.placeholder[0]" v-model="usestring"
-									style="border: 0px; flex: 1 1 0%; width: 100px; background: transparent;">
+									class="reg-field-input">
 							</view>
 						</view>
 					</view>
@@ -81,7 +79,7 @@
 									</view>
 								</view>
 								<input type="tel" :placeholder="i18n.register2[2]" v-model="usestring"
-									style="border: 0px; flex: 1 1 0%; width: 100px; background: transparent;">
+									class="reg-field-input">
 							</view>
 						</view>
 					</view>
@@ -116,7 +114,7 @@
 						<view class="van-field__body">
 							<view class="van-field__control van-field__control--custom">
 								<input type="password" :placeholder="i18n.register.placeholder[2]" v-model="password"
-									style="border: 0px; flex: 1 1 0%; width: 100px; background: transparent;">
+									class="reg-field-input">
 							</view>
 						</view>
 					</view>
@@ -131,7 +129,7 @@
 						<view class="van-field__body">
 							<view class="van-field__control van-field__control--custom">
 								<input type="password" :placeholder="i18n.register.placeholder[3]" v-model="re_password"
-									style="border: 0px; flex: 1 1 0%; width: 100px; background: transparent;">
+									class="reg-field-input">
 							</view>
 						</view>
 					</view>
@@ -146,12 +144,12 @@
 						<view class="van-field__body">
 							<view class="van-field__control van-field__control--custom">
 								<input type="text" :placeholder="i18n.register.placeholder[4]" v-model="invitecode"
-									style="border: 0px; flex: 1 1 0%; width: 100px; background: transparent;">
+									class="reg-field-input">
 							</view>
 						</view>
 					</view>
 				</view>
-				<view style="padding: 33px 16px; text-align: center;">
+				<view class="reg-actions">
 					<view 
 						class="btn" 
 						:class="{ 'btn-disabled': isSubmitting, 'btn-clicking': isClicking }"
@@ -162,7 +160,7 @@
 					</view>
 					<text class="href" @click="dumprun('/pages/common/login')" @tap="dumprun('/pages/common/login')" style="cursor: pointer;">{{i18n.register.label[1]}}</text>
 				</view>
-				<view id="Service" @click="dumprun('/pages/index/serviceCenter')">
+				<view id="Service" class="reg-service-icon" @click="dumprun('/pages/index/serviceCenter')">
 					<image src="../../static/image/news/customer.png" mode="widthFix"></image>
 					<!-- {{i18n.common[0]}} -->
 				</view>
@@ -519,20 +517,86 @@
 </script>
 
 <style>
+	/* 移動端響應式：以 rem 為主，隨根字體縮放 */
 	.PageBox {
 	    color: #635327;
 	    padding: 0;
-	    background-color: #13171a
+	    background-color: #13171a;
+	}
+
+	.reg-actions {
+	    padding: 1.5rem 1rem;
+	    text-align: center;
+	}
+
+	/* 表單輸入：圖標與輸入框分離，不擠在一起 */
+	.reg-field-input {
+	    border: 0;
+	    flex: 1 1 0%;
+	    min-width: 0;
+	    background: transparent;
+	    width: 100%;
+	    font-size: inherit;
+	}
+
+	.van-cell--borderless .van-field__body {
+	    display: flex;
+	    align-items: center;
+	    gap: 0.5rem;
+	    min-width: 0;
+	    flex: 1;
+	}
+	.van-cell--borderless .van-field__control--custom {
+	    display: flex;
+	    align-items: center;
+	    min-width: 0;
+	    flex: 1;
+	}
+	.van-cell--borderless .van-field__left-icon {
+	    flex-shrink: 0;
+	    width: 1.5rem;
+	    min-width: 1.5rem;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	}
+	.van-cell--borderless .van-field__left-icon .van-icon,
+	.van-cell--borderless .van-field__left-icon .van-icon__image {
+	    width: 1.25rem;
+	    height: 1.25rem;
+	    max-width: 100%;
+	    max-height: 100%;
+	    object-fit: contain;
 	}
 	
 	.regType {
-	    margin: 20px;
+	    margin: 1rem 1.25rem;
 	    margin-top: 0;
 	    width: 100%;
 	    margin-bottom: 0;
 	    color: #0076fa;
 	    display: flex;
-	    padding: 10px
+	    align-items: center;
+	    justify-content: space-between;
+	    padding: 0.6rem;
+	    box-sizing: border-box;
+	    gap: 0.5rem;
+	}
+	.reg-type-title {
+	    font-size: clamp(1rem, 4vw + 0.6rem, 1.35rem);
+	    margin: 0;
+	    flex: 1 1 auto;
+	    min-width: 0;
+	}
+	.reg-type-switch {
+	    flex-shrink: 0;
+	    text-align: right;
+	}
+	.reg-type-btn {
+	    color: #fff !important;
+	    background: #13171a !important;
+	    border-color: #13171a !important;
+	    font-size: clamp(0.85rem, 2.5vw + 0.5rem, 1rem) !important;
 	}
 	
 	.van-dropdown-menu .van-dropdown-menu__bar {
@@ -609,7 +673,21 @@
 	}
 	
 	.href {
-	    color: #b5b5b5
+	    color: #b5b5b5;
+	    font-size: clamp(0.8rem, 2.5vw + 0.5rem, 0.95rem);
+	    display: block;
+	    margin-top: 0.5rem;
+	}
+	.reg-service-icon {
+	    display: block;
+	    width: 2.5rem;
+	    height: 2.5rem;
+	    margin: 1rem auto;
+	}
+	.reg-service-icon image {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: contain;
 	}
 	
 	.header_bg {
@@ -628,65 +706,74 @@
 	
 	.logo {
 	    width: 100%;
-	    font-size: 25px;
+	    font-size: clamp(1.2rem, 5vw, 1.6rem);
 	    color: #fff;
 	    text-align: left;
-	    margin-top: 30px;
-	    margin-left: 30px
+	    margin-top: 1.5rem;
+	    margin-left: 1.5rem;
 	}
 	
 	.logo.logo-row {
 	    display: flex;
 	    align-items: center;
 	    justify-content: space-between;
-	    padding-right: 20px;
-	    box-sizing: border-box
+	    padding-right: 1rem;
+	    box-sizing: border-box;
+	    gap: 0.75rem;
 	}
 	
 	.logo-title {
 	    flex: 0 0 auto;
+	    min-width: 0;
 	}
 	
 	.back-login {
-	    font-size: 14px;
+	    font-size: clamp(0.8rem, 2.5vw + 0.5rem, 0.95rem);
 	    color: #0076fa;
 	    cursor: pointer;
 	    flex-shrink: 0;
 	}
 	
 	.loginpanel {
-	    height: 580px;
+	    min-height: 50vh;
 	    background-size: cover;
 	    width: 100%;
-	    padding-bottom: 30px
+	    padding-bottom: 2rem;
+	    box-sizing: border-box;
 	}
 	
 	.logo image {
-	    margin: 20px auto;
+	    margin: 1rem auto;
 	    text-align: center;
-	    width: 200px
+	    max-width: 12rem;
+	    width: 80%;
 	}
 	
 	.van-form {
-	    padding: 0 35px
+	    padding: 0 1.25rem;
+	    box-sizing: border-box;
 	}
 	
 	.van-cell--borderless {
-	    width: 85%;
+	    width: 92%;
+	    max-width: 22rem;
 	    background-color: #191c23;
-	    border-radius: 5px;
+	    border-radius: 0.4rem;
 	    overflow: hidden;
 	    color: #fff;
-	    margin-top: 25px;
-	    margin-left: 30px;
-	    padding: 0 30px 0 13px;
-	    height: 45px
+	    margin-top: 1.25rem;
+	    margin-left: 4%;
+	    padding: 0 1rem 0 0.75rem;
+	    min-height: 3rem;
+	    height: auto;
+	    display: flex;
+	    align-items: center;
+	    box-sizing: border-box;
 	}
 	
 	.van-cell--borderless .van-icon {
-	    font-size: 25px!important;
-	    color: #fff!important;
-	    margin-top: 8px
+	    font-size: 1.25rem !important;
+	    color: #fff !important;
 	}
 	
 	.van-cell--borderless .van-field__right-icon .van-icon-closed-eye {
@@ -714,8 +801,10 @@
 	}
 	
 	.van-cell--borderless .van-field__control {
-	    color: #fff!important;
-	    padding-left: 4px
+	    color: #fff !important;
+	    padding-left: 0.25rem;
+	    flex: 1;
+	    min-width: 0;
 	}
 	
 	.van-nav-bar .van-nav-bar__text {
@@ -776,21 +865,21 @@
 	}
 	
 	.van-cell .van-field__control::-webkit-input-placeholder,.van-cell .van-field__control>input::-webkit-input-placeholder {
-	    color: #939393!important;
-	    font-size: 19px;
-	    font-family: Alibaba
+	    color: #939393 !important;
+	    font-size: clamp(0.85rem, 2.5vw + 0.5rem, 1.05rem);
+	    font-family: Alibaba;
 	}
 	
 	.van-cell .van-field__control::-moz-placeholder,.van-cell .van-field__control>input::-moz-placeholder {
-	    color: #939393!important;
-	    font-size: 19px;
-	    font-family: Alibaba
+	    color: #939393 !important;
+	    font-size: clamp(0.85rem, 2.5vw + 0.5rem, 1.05rem);
+	    font-family: Alibaba;
 	}
 	
 	.van-cell .van-field__control:-ms-input-placeholder,.van-cell .van-field__control>input::-ms-input-placeholder {
-	    color: #939393!important;
-	    font-size: 18px;
-	    font-family: Alibaba
+	    color: #939393 !important;
+	    font-size: clamp(0.85rem, 2.5vw + 0.5rem, 1.05rem);
+	    font-family: Alibaba;
 	}
 	
 	.van-cell .van-cell__value,.van-cell .van-dropdown-menu,.van-cell .van-field__body,.van-cell .van-field__control,.van-cell input {
@@ -798,16 +887,17 @@
 	}
 	
 	.van-cell input {
-	    color: #fff!important;
-	    padding-left: 7px!important;
+	    color: #fff !important;
+	    padding-left: 0.35rem !important;
 	    height: 100%;
-	    font-size: 18px
+	    font-size: clamp(0.9rem, 2.5vw + 0.6rem, 1.1rem);
+	    min-height: 2.5rem;
 	}
 	
 	.van-cell .van-ellipsis {
-	    font-size: 18px;
-	    line-height: 45px;
-	    color: #fff
+	    font-size: clamp(0.9rem, 2.5vw + 0.6rem, 1.1rem);
+	    line-height: 1.4;
+	    color: #fff;
 	}
 	
 	.van-cell .van-dropdown-menu__title:after {
@@ -852,19 +942,24 @@
 	}
 	
 	.btn {
-	    width: 85%;
-	    padding: 10px 50px;
-	    border-radius: 5px;
+	    width: 88%;
+	    max-width: 18rem;
+	    padding: 0.75rem 1.5rem;
+	    border-radius: 0.4rem;
 	    background-color: #0076fa;
 	    color: #fff;
-	    font-size: 18px;
+	    font-size: clamp(0.95rem, 2.5vw + 0.5rem, 1.15rem);
 	    text-align: center;
-	    margin: 15px 30px 30px;
+	    margin: 1rem auto 1.5rem;
 	    cursor: pointer;
 	    user-select: none;
 	    transition: all 0.2s ease;
 	    position: relative;
 	    overflow: hidden;
+	    display: block;
+	    box-sizing: border-box;
+	    min-height: 2.75rem;
+	    line-height: 1.4;
 	}
 	
 	.btn:active,

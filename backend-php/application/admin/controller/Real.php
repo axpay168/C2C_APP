@@ -26,7 +26,30 @@ class Real extends Backend
         $this->view->assign("statusList", $this->model->getStatusList());
     }
 
-
+    /**
+     * 列表（關聯用戶，用於顯示註冊郵箱或電話）
+     */
+    public function index()
+    {
+        $this->request->filter(['strip_tags', 'trim']);
+        if (false === $this->request->isAjax()) {
+            return $this->view->fetch();
+        }
+        if ($this->request->request('keyField')) {
+            return $this->selectpage();
+        }
+        list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+        $list = $this->model
+            ->with(['user'])
+            ->where($where)
+            ->order($sort, $order)
+            ->paginate($limit);
+        foreach ($list as $k => $row) {
+            $row->getRelation('user')->visible(['email', 'mobile']);
+        }
+        $result = ['total' => $list->total(), 'rows' => $list->items()];
+        return json($result);
+    }
 
     /**
      * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法

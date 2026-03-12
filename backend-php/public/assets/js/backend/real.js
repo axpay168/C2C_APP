@@ -26,6 +26,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
+                        {field: 'user.email', title: '用户', operate: 'LIKE', formatter: function(value, row) {
+                            var u = row.user;
+                            if (!u) return '-';
+                            return (u.email || u.mobile || '-');
+                        }},
                         // {field: 'name', title: __('Name'), operate: 'LIKE'},
                         {field: 'idno', title: '凭证', operate: false, events: Table.api.events.image, formatter: Table.api.formatter.image},
                         {field: 'front', title: __('正面'), operate: false, events: Table.api.events.image, formatter: Table.api.formatter.image},
